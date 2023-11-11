@@ -1,0 +1,12 @@
+# Godot 4+ specific ignores
+*.godot/
+*.o
+*.os
+*.obj
+*.dll
+*.a
+*.dy
+*.framework
+*.dblite
+ball.cpp
+ball.h
