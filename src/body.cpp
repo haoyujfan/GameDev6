@@ -36,8 +36,12 @@ void Body::_bind_methods() {
     // ClassDB::add_property("Body", PropertyInfo(Variant::FLOAT, "air_resistance"), "set_air_resistance", "get_air_resistance");
     // ClassDB::add_property("Body", PropertyInfo(Variant::FLOAT, "speed"), "set_speed", "get_speed");
 
-    // ADD_SIGNAL(MethodInfo("enemy_hit"));
-    // ADD_SIGNAL(MethodInfo("ball_hit"));
+    ADD_SIGNAL(MethodInfo("player_chop"));
+    ADD_SIGNAL(MethodInfo("player_slice"));
+    ADD_SIGNAL(MethodInfo("player_stab"));
+    ADD_SIGNAL(MethodInfo("player_dodge"));
+    ADD_SIGNAL(MethodInfo("player_jump"));
+    ADD_SIGNAL(MethodInfo("player_block"));
 }
 
 Body::Body() {
@@ -54,6 +58,73 @@ void Body::_process(double delta) {
     if(Engine::get_singleton()->is_editor_hint()) {
         return;
     }
-    
+    switch(move) {
+        case Moves::IDLE:
+            // code block
+            if(input->is_action_just_pressed("chop")) {
+                move = Moves::CHOP;
+            } else if(input->is_action_just_pressed("slice")) {
+                move = Moves::SLICE;
+            } else if(input->is_action_just_pressed("stab")) {
+                move = Moves::STAB;
+            } else if(input->is_action_just_pressed("dodge")) {
+                move = Moves::DODGE;
+            } else if(input->is_action_just_pressed("jump")) {
+                move = Moves::JUMP;
+            } else if(input->is_action_just_pressed("block")) {
+                move = Moves::BLOCK;
+            }
+            break;
+        case Moves::CHOP:
+            if(get_node<AnimationPlayer>(NodePath("Knight/AnimationPlayer"))->get_current_animation() == "1H_Melee_Attack_Chop") {
+                return;
+            }
+            emit_signal("player_chop");
+            move = Moves::IDLE;
+            // code block
+            break;
+        case Moves::SLICE:
+            if(get_node<AnimationPlayer>(NodePath("Knight/AnimationPlayer"))->get_current_animation() == "1H_Melee_Attack_Slice_Horizontal") {
+                return;
+            }
+            emit_signal("player_slice");
+            // code block
+            move = Moves::IDLE;
+            break;
+        case Moves::STAB:
+            if(get_node<AnimationPlayer>(NodePath("Knight/AnimationPlayer"))->get_current_animation() == "1H_Melee_Attack_Stab") {
+                return;
+            }
+            emit_signal("player_stab");
+            // code block
+            move = Moves::IDLE;
+            break;
+        case Moves::DODGE:
+            if(get_node<AnimationPlayer>(NodePath("Knight/AnimationPlayer"))->get_current_animation() == "Dodge_Left") {
+                return;
+            }
+            // code block
+            emit_signal("player_dodge");
+            move = Moves::IDLE;
+            break;
+        case Moves::JUMP:
+            if(get_node<AnimationPlayer>(NodePath("Knight/AnimationPlayer"))->get_current_animation() == "Jump_Full_Short") {
+                return;
+            }
+            // code block
+            emit_signal("player_jump");
+            move = Moves::IDLE;
+            break;
+        case Moves::BLOCK:
+            if(get_node<AnimationPlayer>(NodePath("Knight/AnimationPlayer"))->get_current_animation() == "Blocking") {
+                return;
+            }
+            // code block
+            emit_signal("player_block");
+            move = Moves::IDLE;
+            break;
+        default:
+            // code block
+        }
 
 }
