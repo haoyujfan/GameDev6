@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6ap7lln6mmxf"]
+
+[ext_resource type="PackedScene" uid="uid://cguhqc0eejj8u" path="res://KayKit_Adventurers_1.0_FREE/Characters/gltf/Knight.glb" id="1_jxhqe"]
+
+[node name="Body" type="Body"]
+
+[node name="Knight" parent="." instance=ExtResource("1_jxhqe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.125068, 0)
