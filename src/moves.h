@@ -1,1 +1,1 @@
-enum Moves { CHOP, SLICE, STAB, DODGE, JUMP, BLOCK };
+enum Moves { IDLE, CHOP, SLICE, STAB, DODGE, JUMP, BLOCK };

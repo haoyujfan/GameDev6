@@ -14,6 +14,7 @@ class Body : public CharacterBody3D {
 
 private:
     Input* input;
+    int move;
 
 
 protected:
