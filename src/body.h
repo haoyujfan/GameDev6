@@ -1,6 +1,7 @@
 #ifndef BODY_H
 #define BODY_H
 
+#include "moves.h"
 #include <godot_cpp/classes/character_body3d.hpp>
 #include <godot_cpp/classes/input.hpp>
 #include <godot_cpp/classes/ray_cast3d.hpp>
@@ -13,6 +14,7 @@ class Body : public CharacterBody3D {
 
 private:
     Input* input;
+
 
 protected:
     static void _bind_methods();
