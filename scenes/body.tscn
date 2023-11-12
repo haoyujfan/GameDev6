@@ -1,8 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://c6ap7lln6mmxf"]
+[gd_scene load_steps=3 format=3 uid="uid://c6ap7lln6mmxf"]
 
 [ext_resource type="PackedScene" uid="uid://cguhqc0eejj8u" path="res://KayKit_Adventurers_1.0_FREE/Characters/gltf/Knight.glb" id="1_jxhqe"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_d6821"]
+radius = 0.7
+height = 2.5
 
 [node name="Body" type="Body"]
 
 [node name="Knight" parent="." instance=ExtResource("1_jxhqe")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.125068, 0)
+transform = Transform3D(-1, 3.48787e-16, -8.74228e-08, 3.48787e-16, 1, -3.48787e-16, 8.74228e-08, -3.48787e-16, -1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06365, 0)
+shape = SubResource("CapsuleShape3D_d6821")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.967766, 0.25185, 0, -0.25185, 0.967766, 0, 3.54721, 2.19992)

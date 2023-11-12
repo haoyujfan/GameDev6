@@ -23,6 +23,7 @@ protected:
 public:
     Body();
     ~Body();
+    void check_input();
     void _ready() override;
     void _process(double delta) override;
 };

@@ -53,6 +53,33 @@ void Body::_ready() {
     
 }
 
+void Body::check_input() {
+    AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Knight/AnimationPlayer"));
+    if(input->is_action_just_pressed("chop")) {
+            UtilityFunctions::print("chopping");
+            move = Moves::CHOP;
+            animation->play("1H_Melee_Attack_Chop");
+        } else if(input->is_action_just_pressed("slice")) {
+            move = Moves::SLICE;
+            animation->play("1H_Melee_Attack_Slice_Horizontal");
+        } else if(input->is_action_just_pressed("stab")) {
+            move = Moves::STAB;
+            animation->play("1H_Melee_Attack_Stab");
+        } else if(input->is_action_just_pressed("dodge")) {
+            move = Moves::DODGE;
+            animation->play("Dodge_Left");
+        } else if(input->is_action_just_pressed("jump")) {
+            move = Moves::JUMP;
+            animation->play("Jump_Full_Short");
+        } else if(input->is_action_just_pressed("block")) {
+            move = Moves::BLOCK;
+            animation->play("Blocking");
+        } else {
+            move = Moves::IDLE;
+            animation->play("Idle");
+        }
+}
+
 void Body::_process(double delta) {
     if(Engine::get_singleton()->is_editor_hint()) {
         return;
@@ -61,25 +88,7 @@ void Body::_process(double delta) {
     switch(move) {
         case Moves::IDLE:
             // code block
-            if(input->is_action_just_pressed("chop")) {
-                move = Moves::CHOP;
-                animation->play("1H_Melee_Attack_Chop");
-            } else if(input->is_action_just_pressed("slice")) {
-                move = Moves::SLICE;
-                animation->play("1H_Melee_Attack_Slice_Horizontal");
-            } else if(input->is_action_just_pressed("stab")) {
-                move = Moves::STAB;
-                animation->play("1H_Melee_Attack_Stab");
-            } else if(input->is_action_just_pressed("dodge")) {
-                move = Moves::DODGE;
-                animation->play("Dodge_Left");
-            } else if(input->is_action_just_pressed("jump")) {
-                move = Moves::JUMP;
-                animation->play("Jump_Full_Short");
-            } else if(input->is_action_just_pressed("block")) {
-                move = Moves::BLOCK;
-                animation->play("Blocking");
-            }
+            check_input();
             break;
         case Moves::CHOP:
             if(animation->get_current_animation() == "1H_Melee_Attack_Chop") {
@@ -123,7 +132,14 @@ void Body::_process(double delta) {
             break;
         case Moves::BLOCK:
             if(animation->get_current_animation() == "Blocking") {
+                if(input->is_action_pressed("block")) {
+                    animation->play("Blocking");
+                }
                 return;
+            }
+            if(input->is_action_pressed("block")) {
+                    animation->play("Blocking");
+                    return;
             }
             // code block
             emit_signal("player_block");
@@ -132,6 +148,7 @@ void Body::_process(double delta) {
         default:
             // code block
             break;
+        animation->play("Idle");
     }
 
 }
