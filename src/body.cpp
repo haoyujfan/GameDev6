@@ -58,25 +58,32 @@ void Body::_process(double delta) {
     if(Engine::get_singleton()->is_editor_hint()) {
         return;
     }
+    AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Knight/AnimationPlayer"));
     switch(move) {
         case Moves::IDLE:
             // code block
             if(input->is_action_just_pressed("chop")) {
                 move = Moves::CHOP;
+                animation->play("1H_Melee_Attack_Chop");
             } else if(input->is_action_just_pressed("slice")) {
                 move = Moves::SLICE;
+                animation->play("1H_Melee_Attack_Slice_Horizontal");
             } else if(input->is_action_just_pressed("stab")) {
                 move = Moves::STAB;
+                animation->play("1H_Melee_Attack_Stab");
             } else if(input->is_action_just_pressed("dodge")) {
                 move = Moves::DODGE;
+                animation->play("Dodge_Left");
             } else if(input->is_action_just_pressed("jump")) {
                 move = Moves::JUMP;
+                animation->play("Jump_Full_Short");
             } else if(input->is_action_just_pressed("block")) {
                 move = Moves::BLOCK;
+                animation->play("Blocking");
             }
             break;
         case Moves::CHOP:
-            if(get_node<AnimationPlayer>(NodePath("Knight/AnimationPlayer"))->get_current_animation() == "1H_Melee_Attack_Chop") {
+            if(animation->get_current_animation() == "1H_Melee_Attack_Chop") {
                 return;
             }
             emit_signal("player_chop");
@@ -84,7 +91,7 @@ void Body::_process(double delta) {
             // code block
             break;
         case Moves::SLICE:
-            if(get_node<AnimationPlayer>(NodePath("Knight/AnimationPlayer"))->get_current_animation() == "1H_Melee_Attack_Slice_Horizontal") {
+            if(animation->get_current_animation() == "1H_Melee_Attack_Slice_Horizontal") {
                 return;
             }
             emit_signal("player_slice");
@@ -92,7 +99,7 @@ void Body::_process(double delta) {
             move = Moves::IDLE;
             break;
         case Moves::STAB:
-            if(get_node<AnimationPlayer>(NodePath("Knight/AnimationPlayer"))->get_current_animation() == "1H_Melee_Attack_Stab") {
+            if(animation->get_current_animation() == "1H_Melee_Attack_Stab") {
                 return;
             }
             emit_signal("player_stab");
@@ -100,7 +107,7 @@ void Body::_process(double delta) {
             move = Moves::IDLE;
             break;
         case Moves::DODGE:
-            if(get_node<AnimationPlayer>(NodePath("Knight/AnimationPlayer"))->get_current_animation() == "Dodge_Left") {
+            if(animation->get_current_animation() == "Dodge_Left") {
                 return;
             }
             // code block
@@ -108,7 +115,7 @@ void Body::_process(double delta) {
             move = Moves::IDLE;
             break;
         case Moves::JUMP:
-            if(get_node<AnimationPlayer>(NodePath("Knight/AnimationPlayer"))->get_current_animation() == "Jump_Full_Short") {
+            if(animation->get_current_animation() == "Jump_Full_Short") {
                 return;
             }
             // code block
@@ -116,7 +123,7 @@ void Body::_process(double delta) {
             move = Moves::IDLE;
             break;
         case Moves::BLOCK:
-            if(get_node<AnimationPlayer>(NodePath("Knight/AnimationPlayer"))->get_current_animation() == "Blocking") {
+            if(animation->get_current_animation() == "Blocking") {
                 return;
             }
             // code block
