@@ -1,0 +1,88 @@
+[gd_scene load_steps=6 format=3 uid="uid://qgpt0l3x0ata"]
+
+[ext_resource type="Texture2D" uid="uid://dgibhddc8adyt" path="res://2D Health & Ammo Pickups v6.2/32px/health-red 32px.png" id="1_hcqut"]
+[ext_resource type="Texture2D" uid="uid://c310nhtuax664" path="res://2D Health & Ammo Pickups v6.2/32px/health-armor 32px.png" id="2_bads0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xhwfa"]
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3eqg7"]
+bg_color = Color(0.960784, 0.294118, 0.423529, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d3h04"]
+bg_color = Color(0.356863, 0.588235, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="GUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="GridContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.0
+
+[node name="TextureRect" type="TextureRect" parent="GridContainer/HBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+texture = ExtResource("1_hcqut")
+expand_mode = 2
+
+[node name="Health" type="ProgressBar" parent="GridContainer/HBoxContainer"]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_xhwfa")
+theme_override_styles/fill = SubResource("StyleBoxFlat_3eqg7")
+value = 50.0
+show_percentage = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GridContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Shield" type="ProgressBar" parent="GridContainer/HBoxContainer"]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_xhwfa")
+theme_override_styles/fill = SubResource("StyleBoxFlat_d3h04")
+value = 50.0
+show_percentage = false
+
+[node name="TextureRect2" type="TextureRect" parent="GridContainer/HBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+texture = ExtResource("2_bads0")
+expand_mode = 2
