@@ -109,6 +109,5 @@ func enemy_stab() :
 
 
 func _on_body_blocking(shield):
-	print(shield);
 	get_node("GUI/GridContainer/HBoxContainer/Shield").set_value(shield)
 	pass # Replace with function body.

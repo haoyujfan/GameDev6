@@ -69,8 +69,8 @@ void Enemy::_physics_process(double delta) {
     }
     set_velocity(velocity);
     move_and_slide();
-    if (is_fighting && move != Moves::CHOP)
-        move = Moves::CHOP;
+    // if (is_fighting && move != Moves::CHOP)
+    //     move = Moves::CHOP;
     switch(move) {
         case Moves::IDLE:
             animation->play("Idle");
