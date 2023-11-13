@@ -39,7 +39,8 @@ public:
     void set_shield(double p_shield);
     double get_shield();
     void set_health(double p_health);
-    bool get_health();
+    double get_health();
+    int get_move();
     void _ready() override;
     void _process(double delta) override;
     void _physics_process(double delta) override;

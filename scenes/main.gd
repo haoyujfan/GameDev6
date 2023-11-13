@@ -62,9 +62,29 @@ func _process(_delta):
 
 
 func enemy_chop() :
-	print('chopping')
+	# get player node
+	# check player current state
+	# if  dodge -> return
+	# if block -> call player method to take damage
+	# otherwise -> call player method take more damage
+	var p = get_tree().get_first_node_in_group("player")
+	var move = p.get_move()
+	# dodge
+	if move == 4 :
+		return
+	# block
+	elif move == 6 :
+		p.set_health(p.get_health() - 0)
+		update_health(p.get_health())
+	else :
+		p.set_health(p.get_health() - 5)
+		update_health(p.get_health())
 	pass
 	
+func update_health(health):
+	get_node("GUI/GridContainer/HBoxContainer/Health").set_value(health)
+	pass
+
 func enemy_slice() :
 	pass
 
@@ -74,5 +94,5 @@ func enemy_stab() :
 
 func _on_body_blocking(shield):
 	print(shield);
-	get_node("GUI/GridContainer/HBoxContainer/Shield").set_value(shield);
+	get_node("GUI/GridContainer/HBoxContainer/Shield").set_value(shield)
 	pass # Replace with function body.
