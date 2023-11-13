@@ -23,6 +23,12 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_location"), &Enemy::get_location);
     ClassDB::bind_method(D_METHOD("get_approaching"), &Enemy::get_approaching);
     ClassDB::bind_method(D_METHOD("set_approaching", "p_approaching"), &Enemy::set_approaching);
+    ADD_SIGNAL(MethodInfo("enemy_chop"));
+    ADD_SIGNAL(MethodInfo("enemy_slice"));
+    ADD_SIGNAL(MethodInfo("enemy_stab"));
+    ADD_SIGNAL(MethodInfo("enemy_dodge"));
+    ADD_SIGNAL(MethodInfo("enemy_jump"));
+    ADD_SIGNAL(MethodInfo("enemy_block"));
 }
 
 Enemy::Enemy() {
@@ -31,6 +37,7 @@ Enemy::Enemy() {
     gravity = 1400.0;
     velocity = Vector3(0, 0, 0);
     is_approaching = false;
+    move = Moves::CHOP;
 }
 
 
@@ -62,33 +69,30 @@ void Enemy::_physics_process(double delta) {
     }
     set_velocity(velocity);
     move_and_slide();
-    animation->play("Idle");
     switch(move) {
         case Moves::IDLE:
-            // code block
-            // check_input();
+            animation->play("Idle");
             break;
         case Moves::CHOP:
             if(animation->get_current_animation() == "1H_Melee_Attack_Chop") {
                 return;
             }
-            emit_signal("player_chop");
-            move = Moves::IDLE;
-            // code block
+            emit_signal("enemy_chop");
+            // move = Moves::IDLE;
+            animation->play("1H_Melee_Attack_Chop");
             break;
         case Moves::SLICE:
             if(animation->get_current_animation() == "1H_Melee_Attack_Slice_Horizontal") {
                 return;
             }
-            emit_signal("player_slice");
-            // code block
+            emit_signal("enemy_slice");
             move = Moves::IDLE;
             break;
         case Moves::STAB:
             if(animation->get_current_animation() == "1H_Melee_Attack_Stab") {
                 return;
             }
-            emit_signal("player_stab");
+            emit_signal("enemy_stab");
             // code block
             move = Moves::IDLE;
             break;
@@ -97,7 +101,7 @@ void Enemy::_physics_process(double delta) {
                 return;
             }
             // code block
-            emit_signal("player_dodge");
+            emit_signal("enemy_dodge");
             move = Moves::IDLE;
             break;
         case Moves::JUMP:
@@ -105,7 +109,7 @@ void Enemy::_physics_process(double delta) {
                 return;
             }
             // code block
-            emit_signal("player_jump");
+            emit_signal("enemy_jump");
             move = Moves::IDLE;
             break;
         case Moves::BLOCK:
@@ -120,7 +124,7 @@ void Enemy::_physics_process(double delta) {
                     return;
             }
             // code block
-            emit_signal("player_block");
+            emit_signal("enemy_block");
             move = Moves::IDLE;
             break;
         default:
