@@ -23,6 +23,8 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_location"), &Enemy::get_location);
     ClassDB::bind_method(D_METHOD("get_approaching"), &Enemy::get_approaching);
     ClassDB::bind_method(D_METHOD("set_approaching", "p_approaching"), &Enemy::set_approaching);
+    ClassDB::bind_method(D_METHOD("get_fighting"), &Enemy::get_fighting);
+    ClassDB::bind_method(D_METHOD("set_fighting", "p_fighting"), &Enemy::set_fighting);
     ADD_SIGNAL(MethodInfo("enemy_chop"));
     ADD_SIGNAL(MethodInfo("enemy_slice"));
     ADD_SIGNAL(MethodInfo("enemy_stab"));
@@ -34,7 +36,8 @@ Enemy::Enemy() {
     gravity = 1400.0;
     velocity = Vector3(0, 0, 0);
     is_approaching = false;
-    move = Moves::CHOP;
+    is_fighting = false;
+    move = Moves::IDLE;
 }
 
 
@@ -66,6 +69,8 @@ void Enemy::_physics_process(double delta) {
     }
     set_velocity(velocity);
     move_and_slide();
+    if (is_fighting && move != Moves::CHOP)
+        move = Moves::CHOP;
     switch(move) {
         case Moves::IDLE:
             animation->play("Idle");
@@ -138,4 +143,12 @@ bool Enemy::get_approaching() {
 
 Vector3 Enemy::get_location() {
     return get_position();
+}
+
+void Enemy::set_fighting(bool p_fighting) {
+    is_fighting = p_fighting;
+}
+
+bool Enemy::get_fighting() {
+    return is_fighting;
 }

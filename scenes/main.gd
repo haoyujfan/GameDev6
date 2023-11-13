@@ -44,6 +44,7 @@ func _process(_delta):
 		return;
 	if(e.get_approaching() && e.get_location().x > p.get_location().x-10) :
 		e.set_approaching(false);
+		e.set_fighting(true);
 		print("next to them")
 		return;
 	if(p.get_location().x < a.global_position.x-200) :
