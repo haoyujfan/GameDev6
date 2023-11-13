@@ -19,6 +19,7 @@ private:
     double gravity;
     Vector3 velocity;
     Body* player;
+    bool is_approaching;
 
 
 protected:
@@ -27,9 +28,12 @@ protected:
 public:
     Enemy();
     ~Enemy();
+    Vector3 get_location();
     void _ready() override;
     void _process(double delta) override;
     void _physics_process(double delta) override;
+    void set_approaching(bool p_approaching);
+    bool get_approaching();
 };
 
 }

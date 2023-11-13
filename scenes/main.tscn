@@ -20,4 +20,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 27.796, 0)
 [node name="Env_Main_Arena" parent="Arena" instance=ExtResource("2_164r6")]
 
 [node name="Body" parent="." groups=["player"] instance=ExtResource("2_dvium")]
-transform = Transform3D(-0.010943, 0, 0.99994, 0, 1, 0, -0.99994, 0, -0.010943, 17.3243, 5.58744, -0.189592)
+transform = Transform3D(-0.010943, 0, 0.99994, 0, 1, 0, -0.99994, 0, -0.010943, 40, 2.08165e-12, 2.08165e-12)

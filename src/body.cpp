@@ -20,6 +20,10 @@ Body::~Body() {
 
 void Body::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_location"), &Body::get_location);
+    ClassDB::bind_method(D_METHOD("get_running"), &Body::get_running);
+    ClassDB::bind_method(D_METHOD("set_running", "p_running"), &Body::set_running);
+    ClassDB::bind_method(D_METHOD("get_fighting"), &Body::get_fighting);
+    ClassDB::bind_method(D_METHOD("set_fighting", "p_fighting"), &Body::set_fighting);
     ADD_SIGNAL(MethodInfo("player_chop"));
     ADD_SIGNAL(MethodInfo("player_slice"));
     ADD_SIGNAL(MethodInfo("player_stab"));
@@ -33,9 +37,11 @@ Body::Body() {
     InputMap::get_singleton()->load_from_project_settings();
     gravity = 1400.0;
     velocity = Vector3(0, 0, 0);
+    is_running = true;
 }
 
-void Body::_ready() {}
+void Body::_ready() {
+}
 
 void Body::check_input() {
     AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Knight/AnimationPlayer"));
@@ -72,9 +78,13 @@ void Body::_process(double delta) {
     if(Engine::get_singleton()->is_editor_hint()) {
         return;
     }
-    set_velocity(Vector3(-30,0,0));
-    move_and_slide();
     AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Knight/AnimationPlayer"));
+    if(is_running) {
+        set_velocity(Vector3(-30,0,0));
+        move_and_slide();
+        animation->play("Running_A");
+        return;
+    }
     switch(move) {
         case Moves::IDLE:
             // code block
@@ -151,4 +161,20 @@ void Body::_physics_process(double delta) {
     }
     set_velocity(velocity);
     move_and_slide();
+}
+
+void Body::set_running(bool p_running) {
+    is_running = p_running;
+}
+
+bool Body::get_running() {
+    return is_running;
+}
+
+void Body::set_fighting(bool p_fighting) {
+    is_fighting = p_fighting;
+}
+
+bool Body::get_fighting() {
+    return is_fighting;
 }

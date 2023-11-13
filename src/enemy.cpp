@@ -20,24 +20,9 @@ Enemy::~Enemy() {
 }
 
 void Enemy::_bind_methods() {
-    // ClassDB::bind_method(D_METHOD("get_gravity"), &Body::get_gravity);
-    // ClassDB::bind_method(D_METHOD("set_gravity", "p_gravity"), &Body::set_gravity);
-    // ClassDB::bind_method(D_METHOD("get_jump_velocity"), &Body::get_jump_velocity);
-    // ClassDB::bind_method(D_METHOD("set_jump_velocity", "p_jump_velocity"), &Body::set_jump_velocity);
-    // ClassDB::bind_method(D_METHOD("get_air_control"), &Body::get_air_control);
-    // ClassDB::bind_method(D_METHOD("set_air_control", "p_air_control"), &Body::set_air_control);
-    // ClassDB::bind_method(D_METHOD("get_air_resistance"), &Body::get_air_resistance);
-    // ClassDB::bind_method(D_METHOD("set_air_resistance", "p_air_resistance"), &Body::set_air_resistance);
-    // ClassDB::bind_method(D_METHOD("get_speed"), &Body::get_speed);
-    // ClassDB::bind_method(D_METHOD("set_speed", "p_speed"), &Body::set_speed);
-    // ClassDB::add_property("Body", PropertyInfo(Variant::FLOAT, "gravity"), "set_gravity", "get_gravity");
-    // ClassDB::add_property("Body", PropertyInfo(Variant::FLOAT, "jump_velocity"), "set_jump_velocity", "get_jump_velocity");
-    // ClassDB::add_property("Body", PropertyInfo(Variant::FLOAT, "air_control"), "set_air_control", "get_air_control");
-    // ClassDB::add_property("Body", PropertyInfo(Variant::FLOAT, "air_resistance"), "set_air_resistance", "get_air_resistance");
-    // ClassDB::add_property("Body", PropertyInfo(Variant::FLOAT, "speed"), "set_speed", "get_speed");
-
-    // ADD_SIGNAL(MethodInfo("enemy_hit"));
-    // ADD_SIGNAL(MethodInfo("ball_hit"));
+    ClassDB::bind_method(D_METHOD("get_location"), &Enemy::get_location);
+    ClassDB::bind_method(D_METHOD("get_approaching"), &Enemy::get_approaching);
+    ClassDB::bind_method(D_METHOD("set_approaching", "p_approaching"), &Enemy::set_approaching);
 }
 
 Enemy::Enemy() {
@@ -45,6 +30,7 @@ Enemy::Enemy() {
     InputMap::get_singleton()->load_from_project_settings();
     gravity = 1400.0;
     velocity = Vector3(0, 0, 0);
+    is_approaching = false;
 }
 
 
@@ -62,13 +48,95 @@ void Enemy::_physics_process(double delta) {
     if(Engine::get_singleton()->is_editor_hint()) {
         return;
     }
-    // Vector3 dir = player->get_position() - this->get_position();
-    // dir.normalize();
-    // if (!this->is_on_floor()) {
-    //     velocity.y -= gravity * delta;
-    // }
-    // dir.y = velocity.y;
-    // set_velocity(dir * 10);
+    if (!this->is_on_floor()) {
+            velocity.y -= gravity * delta;
+    }
+    AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Barbarian/AnimationPlayer"));
+    if(is_approaching) {
+        velocity.x = 30;
+        set_velocity(velocity);
+        move_and_slide();
+        animation->play("Running_A");
+        return;
+    }
+    set_velocity(velocity);
     move_and_slide();
-    // set_position(get_position());
+    animation->play("Idle");
+    switch(move) {
+        case Moves::IDLE:
+            // code block
+            // check_input();
+            break;
+        case Moves::CHOP:
+            if(animation->get_current_animation() == "1H_Melee_Attack_Chop") {
+                return;
+            }
+            emit_signal("player_chop");
+            move = Moves::IDLE;
+            // code block
+            break;
+        case Moves::SLICE:
+            if(animation->get_current_animation() == "1H_Melee_Attack_Slice_Horizontal") {
+                return;
+            }
+            emit_signal("player_slice");
+            // code block
+            move = Moves::IDLE;
+            break;
+        case Moves::STAB:
+            if(animation->get_current_animation() == "1H_Melee_Attack_Stab") {
+                return;
+            }
+            emit_signal("player_stab");
+            // code block
+            move = Moves::IDLE;
+            break;
+        case Moves::DODGE:
+            if(animation->get_current_animation() == "Dodge_Left") {
+                return;
+            }
+            // code block
+            emit_signal("player_dodge");
+            move = Moves::IDLE;
+            break;
+        case Moves::JUMP:
+            if(animation->get_current_animation() == "Jump_Full_Short") {
+                return;
+            }
+            // code block
+            emit_signal("player_jump");
+            move = Moves::IDLE;
+            break;
+        case Moves::BLOCK:
+            if(animation->get_current_animation() == "Blocking") {
+                if(input->is_action_pressed("block")) {
+                    animation->play("Blocking");
+                }
+                return;
+            }
+            if(input->is_action_pressed("block")) {
+                    animation->play("Blocking");
+                    return;
+            }
+            // code block
+            emit_signal("player_block");
+            move = Moves::IDLE;
+            break;
+        default:
+            // code block
+            break;
+        animation->play("Idle");
+    }
+}
+
+void Enemy::set_approaching(bool p_approaching) {
+    is_approaching = p_approaching;
+}
+
+bool Enemy::get_approaching() {
+    return is_approaching;
+}
+
+Vector3 Enemy::get_location() {
+    return get_position();
 }

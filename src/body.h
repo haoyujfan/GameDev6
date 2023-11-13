@@ -16,6 +16,8 @@ private:
     Input* input;
     int move;
     double gravity;
+    bool is_running;
+    bool is_fighting;
     Vector3 velocity;
     
 
@@ -28,6 +30,10 @@ public:
     ~Body();
     void check_input();
     Vector3 get_location();
+    void set_running(bool p_running);
+    bool get_running();
+    void set_fighting(bool p_fighting);
+    bool get_fighting();
     void _ready() override;
     void _process(double delta) override;
     void _physics_process(double delta) override;
