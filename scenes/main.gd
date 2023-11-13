@@ -99,7 +99,7 @@ func enemy_stab() :
 	if move == 6 :
 		return
 	else :
-		p.set_health(p.get_health() - 5)
+		p.set_health(p.get_health() - 10)
 		update_health(p.get_health())
 	pass
 
@@ -124,8 +124,25 @@ func _on_player_chop():
 	pass # Replace with function body.
 
 func _on_player_slice():
+	var e = get_tree().get_first_node_in_group("enemy1")
+	var move = e.get_move()
+	# jump
+	if move == 5 :
+		return
+	# block
+	elif move == 6 :
+		e.set_health(e.get_health() - 1)
+	else :
+		e.set_health(e.get_health() - 5)
 	pass # Replace with function body.
 
 
 func _on_player_stab():
+	var e = get_tree().get_first_node_in_group("enemy1")
+	var move = e.get_move()
+	# block
+	if move == 6 :
+		return
+	else :
+		e.set_health(e.get_health() - 10)
 	pass # Replace with function body.
