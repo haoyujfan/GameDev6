@@ -41,6 +41,8 @@ Body::Body() {
     input = Input::get_singleton();
     InputMap::get_singleton()->load_from_project_settings();
     gravity = 1400.0;
+    shield = 100;
+    health = 100;
     velocity = Vector3(0, 0, 0);
     is_running = true;
 }
@@ -62,7 +64,7 @@ void Body::check_input() {
             animation->play("1H_Melee_Attack_Stab");
         } else if(input->is_action_just_pressed("dodge")) {
             move = Moves::DODGE;
-            animation->play("Dodge_Left");
+            animation->play("Dodge_Right");
         } else if(input->is_action_just_pressed("jump")) {
             move = Moves::JUMP;
             animation->play("Jump_Full_Short");
@@ -90,6 +92,12 @@ void Body::_process(double delta) {
         animation->play("Running_A");
         return;
     }
+    if(move != Moves::BLOCK) {
+        shield += delta * 10;
+        emit_signal("blocking", shield);
+    }
+    if(shield > 100)
+            shield = 100;
     switch(move) {
         case Moves::IDLE:
             // code block
@@ -136,7 +144,13 @@ void Body::_process(double delta) {
             move = Moves::IDLE;
             break;
         case Moves::BLOCK:
-            shield -= delta;
+            if(shield < 0) {
+                shield = 0;
+                move = Moves::IDLE;
+                animation->play("Idle");
+                return;
+            }
+            shield -= delta*20;
             emit_signal("blocking", shield);
             if(animation->get_current_animation() == "Blocking") {
                 if(input->is_action_pressed("block")) {
