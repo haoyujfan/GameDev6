@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://bu71yova8j8bn"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s6wq0"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0lvip"]
+size = Vector3(2, 50, 100)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fe5kw"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_x68ey"]
+size = Vector3(2, 25, 25)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a73fv"]
+
+[node name="Wall_Door" type="StaticBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_s6wq0")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+use_collision = true
+mesh = SubResource("BoxMesh_0lvip")
+material = SubResource("StandardMaterial3D_fe5kw")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="CSGMesh3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -12.5, 2.08165e-12)
+operation = 2
+use_collision = true
+mesh = SubResource("BoxMesh_x68ey")
+material = SubResource("StandardMaterial3D_a73fv")

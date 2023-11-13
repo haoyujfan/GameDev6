@@ -1,0 +1,56 @@
+[gd_scene load_steps=7 format=3 uid="uid://dbdcyqtl331c4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hx8jc"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_b47qc"]
+size = Vector3(25, 2, 50)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bmf6b"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5phg0"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0q5ke"]
+size = Vector3(2, 25, 50)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l6orp"]
+
+[node name="Env_Hallway" type="Node3D"]
+
+[node name="HallwayGround" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HallwayGround"]
+shape = SubResource("BoxShape3D_hx8jc")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="HallwayGround"]
+mesh = SubResource("BoxMesh_b47qc")
+material = SubResource("StandardMaterial3D_bmf6b")
+
+[node name="Ceiling" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 25, 2.08165e-12)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceiling"]
+shape = SubResource("BoxShape3D_hx8jc")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Ceiling"]
+mesh = SubResource("BoxMesh_b47qc")
+material = SubResource("StandardMaterial3D_bmf6b")
+
+[node name="Wall1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 12.5, 2.08165e-12)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall1"]
+shape = SubResource("BoxShape3D_5phg0")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Wall1"]
+mesh = SubResource("BoxMesh_0q5ke")
+material = SubResource("StandardMaterial3D_l6orp")
+
+[node name="Wall2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 12.5, 2.08165e-12)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall2"]
+shape = SubResource("BoxShape3D_5phg0")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Wall2"]
+mesh = SubResource("BoxMesh_0q5ke")
+material = SubResource("StandardMaterial3D_l6orp")
