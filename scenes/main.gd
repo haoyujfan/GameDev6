@@ -44,6 +44,7 @@ func _process(_delta):
 		return;
 	if(e.get_approaching() && e.get_location().x > p.get_location().x-10) :
 		e.set_approaching(false);
+		e.set_fighting(true);
 		print("next to them")
 		return;
 	if(p.get_location().x < a.global_position.x-200) :
@@ -62,17 +63,51 @@ func _process(_delta):
 
 
 func enemy_chop() :
-	print('chopping')
+	var p = get_tree().get_first_node_in_group("player")
+	var move = p.get_move()
+	# dodge
+	if move == 4 :
+		return
+	# block
+	elif move == 6 :
+		p.set_health(p.get_health() - 1)
+		update_health(p.get_health())
+	else :
+		p.set_health(p.get_health() - 5)
+		update_health(p.get_health())
 	pass
 	
+func update_health(health):
+	get_node("GUI/GridContainer/HBoxContainer/Health").set_value(health)
+	pass
+
 func enemy_slice() :
+	var p = get_tree().get_first_node_in_group("player")
+	var move = p.get_move()
+	# jump
+	if move == 5 :
+		return
+	# block
+	elif move == 6 :
+		p.set_health(p.get_health() - 1)
+		update_health(p.get_health())
+	else :
+		p.set_health(p.get_health() - 5)
+		update_health(p.get_health())
 	pass
 
 func enemy_stab() :
+	var p = get_tree().get_first_node_in_group("player")
+	var move = p.get_move()
+	# block
+	if move == 6 :
+		return
+	else :
+		p.set_health(p.get_health() - 5)
+		update_health(p.get_health())
 	pass
 
 
 func _on_body_blocking(shield):
-	print(shield);
-	get_node("GUI/GridContainer/HBoxContainer/Shield").set_value(shield);
+	get_node("GUI/GridContainer/HBoxContainer/Shield").set_value(shield)
 	pass # Replace with function body.

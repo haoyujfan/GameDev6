@@ -20,6 +20,7 @@ private:
     Vector3 velocity;
     Body* player;
     bool is_approaching;
+    bool is_fighting;
 
 
 protected:
@@ -34,6 +35,8 @@ public:
     void _physics_process(double delta) override;
     void set_approaching(bool p_approaching);
     bool get_approaching();
+    void set_fighting(bool p_fighting);
+    bool get_fighting();
 };
 
 }
