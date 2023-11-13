@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://dr64crahoxkj2"]
+[gd_scene load_steps=4 format=3 uid="uid://dr64crahoxkj2"]
 
-[ext_resource type="PackedScene" uid="uid://cj8iufib42x12" path="res://ground.tscn" id="1_i5u0i"]
+[ext_resource type="PackedScene" path="res://ground.tscn" id="1_i5u0i"]
 [ext_resource type="PackedScene" uid="uid://c6ap7lln6mmxf" path="res://body.tscn" id="2_dvium"]
 [ext_resource type="PackedScene" uid="uid://qgpt0l3x0ata" path="res://gui.tscn" id="3_hl0rq"]
 
