@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://main.gd" id="1_rspqf"]
 [ext_resource type="PackedScene" uid="uid://bgxx8rs16d6hi" path="res://env_main_arena.tscn" id="2_164r6"]
 [ext_resource type="PackedScene" uid="uid://c6ap7lln6mmxf" path="res://body.tscn" id="2_dvium"]
-[ext_resource type="PackedScene" path="res://gui.tscn" id="3_hl0rq"]
+[ext_resource type="PackedScene" uid="uid://qgpt0l3x0ata" path="res://gui.tscn" id="3_hl0rq"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_rspqf")
@@ -21,3 +21,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 27.796, 0)
 
 [node name="Body" parent="." groups=["player"] instance=ExtResource("2_dvium")]
 transform = Transform3D(-0.010943, 0, 0.99994, 0, 1, 0, -0.99994, 0, -0.010943, 40, 2.08165e-12, 2.08165e-12)
+
+[connection signal="blocking" from="Body" to="." method="_on_body_blocking"]

@@ -15,6 +15,8 @@ class Body : public CharacterBody3D {
 private:
     Input* input;
     int move;
+    double shield;
+    double health;
     double gravity;
     bool is_running;
     bool is_fighting;
@@ -34,6 +36,10 @@ public:
     bool get_running();
     void set_fighting(bool p_fighting);
     bool get_fighting();
+    void set_shield(double p_shield);
+    double get_shield();
+    void set_health(double p_health);
+    bool get_health();
     void _ready() override;
     void _process(double delta) override;
     void _physics_process(double delta) override;

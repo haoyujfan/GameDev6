@@ -24,12 +24,17 @@ void Body::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_running", "p_running"), &Body::set_running);
     ClassDB::bind_method(D_METHOD("get_fighting"), &Body::get_fighting);
     ClassDB::bind_method(D_METHOD("set_fighting", "p_fighting"), &Body::set_fighting);
+    ClassDB::bind_method(D_METHOD("get_shield"), &Body::get_shield);
+    ClassDB::bind_method(D_METHOD("set_shield", "p_shield"), &Body::set_shield);
+    ClassDB::bind_method(D_METHOD("get_health"), &Body::get_health);
+    ClassDB::bind_method(D_METHOD("set_health", "p_health"), &Body::set_health);
     ADD_SIGNAL(MethodInfo("player_chop"));
     ADD_SIGNAL(MethodInfo("player_slice"));
     ADD_SIGNAL(MethodInfo("player_stab"));
     ADD_SIGNAL(MethodInfo("player_dodge"));
     ADD_SIGNAL(MethodInfo("player_jump"));
     ADD_SIGNAL(MethodInfo("player_block"));
+    ADD_SIGNAL(MethodInfo("blocking",PropertyInfo(Variant::FLOAT,"shield")));
 }
 
 Body::Body() {
@@ -115,7 +120,7 @@ void Body::_process(double delta) {
             move = Moves::IDLE;
             break;
         case Moves::DODGE:
-            if(animation->get_current_animation() == "Dodge_Left") {
+            if(animation->get_current_animation() == "Dodge_Right") {
                 return;
             }
             // code block
@@ -131,6 +136,8 @@ void Body::_process(double delta) {
             move = Moves::IDLE;
             break;
         case Moves::BLOCK:
+            shield -= delta;
+            emit_signal("blocking", shield);
             if(animation->get_current_animation() == "Blocking") {
                 if(input->is_action_pressed("block")) {
                     animation->play("Blocking");
@@ -177,4 +184,20 @@ void Body::set_fighting(bool p_fighting) {
 
 bool Body::get_fighting() {
     return is_fighting;
+}
+
+void Body::set_shield(double p_shield) {
+    shield = p_shield;
+}
+
+double Body::get_shield() {
+    return shield;
+}
+
+void Body::set_health(double p_health) {
+    health = p_health;
+}
+
+bool Body::get_health() {
+    return health;
 }

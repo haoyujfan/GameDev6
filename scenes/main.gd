@@ -70,3 +70,7 @@ func enemy_slice() :
 
 func enemy_stab() :
 	pass
+
+
+func _on_body_blocking(shield):
+	pass # Replace with function body.
