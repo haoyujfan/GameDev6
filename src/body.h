@@ -15,6 +15,9 @@ class Body : public CharacterBody3D {
 private:
     Input* input;
     int move;
+    double gravity;
+    Vector3 velocity;
+    
 
 
 protected:
@@ -26,6 +29,7 @@ public:
     void check_input();
     void _ready() override;
     void _process(double delta) override;
+    void _physics_process(double delta) override;
 };
 
 }
