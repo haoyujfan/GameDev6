@@ -48,6 +48,7 @@ void Enemy::_physics_process(double delta) {
     if(Engine::get_singleton()->is_editor_hint()) {
         return;
     }
+    velocity.x = 0;
     if (!this->is_on_floor()) {
             velocity.y -= gravity * delta;
     }
