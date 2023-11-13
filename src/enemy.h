@@ -21,6 +21,8 @@ private:
     Body* player;
     bool is_approaching;
     bool is_fighting;
+    double health;
+    
 
 
 protected:
@@ -37,6 +39,9 @@ public:
     bool get_approaching();
     void set_fighting(bool p_fighting);
     bool get_fighting();
+    int get_move();
+    void set_health(double p_health);
+    double get_health();
 };
 
 }

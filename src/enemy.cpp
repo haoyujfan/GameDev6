@@ -10,6 +10,7 @@
 #include <godot_cpp/classes/input_map.hpp>
 #include <godot_cpp/classes/animation_player.hpp>
 #include <godot_cpp/classes/audio_stream_player.hpp>
+#include <godot_cpp/classes/progress_bar.hpp>
 
 
 using namespace godot;
@@ -25,6 +26,9 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_approaching", "p_approaching"), &Enemy::set_approaching);
     ClassDB::bind_method(D_METHOD("get_fighting"), &Enemy::get_fighting);
     ClassDB::bind_method(D_METHOD("set_fighting", "p_fighting"), &Enemy::set_fighting);
+    ClassDB::bind_method(D_METHOD("get_move"), &Enemy::get_move);
+    ClassDB::bind_method(D_METHOD("get_health"), &Enemy::get_health);
+    ClassDB::bind_method(D_METHOD("set_health", "p_health"), &Enemy::set_health);
     ADD_SIGNAL(MethodInfo("enemy_chop"));
     ADD_SIGNAL(MethodInfo("enemy_slice"));
     ADD_SIGNAL(MethodInfo("enemy_stab"));
@@ -37,6 +41,7 @@ Enemy::Enemy() {
     velocity = Vector3(0, 0, 0);
     is_approaching = false;
     is_fighting = false;
+    health = 100;
     move = Moves::IDLE;
 }
 
@@ -151,4 +156,17 @@ void Enemy::set_fighting(bool p_fighting) {
 
 bool Enemy::get_fighting() {
     return is_fighting;
+}
+
+int Enemy::get_move() {
+    return move;
+}
+
+void Enemy::set_health(double p_health) {
+    health = p_health;
+    get_node<ProgressBar>("SubViewport/ProgressBar")->set_value(health);
+}
+
+double Enemy::get_health() {
+    return health;
 }

@@ -76,10 +76,6 @@ func enemy_chop() :
 		p.set_health(p.get_health() - 5)
 		update_health(p.get_health())
 	pass
-	
-func update_health(health):
-	get_node("GUI/GridContainer/HBoxContainer/Health").set_value(health)
-	pass
 
 func enemy_slice() :
 	var p = get_tree().get_first_node_in_group("player")
@@ -107,6 +103,29 @@ func enemy_stab() :
 		update_health(p.get_health())
 	pass
 
-
 func _on_body_blocking(shield):
 	get_node("GUI/GridContainer/HBoxContainer/Shield").set_value(shield)
+	
+func update_health(health):
+	get_node("GUI/GridContainer/HBoxContainer/Health").set_value(health)
+	pass
+
+func _on_player_chop():
+	var e = get_tree().get_first_node_in_group("enemy1")
+	var move = e.get_move()
+	# dodge
+	if move == 4 :
+		return
+	# block
+	elif move == 6 :
+		e.set_health(e.get_health() - 1)
+	else :
+		e.set_health(e.get_health() - 5)
+	pass # Replace with function body.
+
+func _on_player_slice():
+	pass # Replace with function body.
+
+
+func _on_player_stab():
+	pass # Replace with function body.
