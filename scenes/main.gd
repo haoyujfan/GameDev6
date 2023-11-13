@@ -10,11 +10,17 @@ func _ready():
 	arena.add_to_group("arena1")
 	var enemy = arena.get_node("Enemy");
 	enemy.add_to_group("enemy1");
+	enemy.connect("enemy_chop", enemy_chop);
+	enemy.connect("enemy_slice", enemy_slice);
+	enemy.connect("enemy_stab", enemy_stab);
 	arena = ArenaScene.instantiate()
 	arena.position = Vector3(-300,0,0);
 	arena.add_to_group("arena2")
 	enemy = arena.get_node("Enemy");
 	enemy.add_to_group("enemy2");
+	enemy.connect("enemy_chop", enemy_chop);
+	enemy.connect("enemy_slice", enemy_slice);
+	enemy.connect("enemy_stab", enemy_stab);
 	$Arena.add_child(arena,true)
 
 	# var player = PlayerScene.instantiate()
@@ -52,4 +58,15 @@ func _process(_delta):
 		$Arena.add_child(arena,true)
 		a.queue_free();
 		
+	pass
+
+
+func enemy_chop() :
+	print('chopping')
+	pass
+	
+func enemy_slice() :
+	pass
+
+func enemy_stab() :
 	pass

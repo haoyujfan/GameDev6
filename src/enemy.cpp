@@ -26,9 +26,6 @@ void Enemy::_bind_methods() {
     ADD_SIGNAL(MethodInfo("enemy_chop"));
     ADD_SIGNAL(MethodInfo("enemy_slice"));
     ADD_SIGNAL(MethodInfo("enemy_stab"));
-    ADD_SIGNAL(MethodInfo("enemy_dodge"));
-    ADD_SIGNAL(MethodInfo("enemy_jump"));
-    ADD_SIGNAL(MethodInfo("enemy_block"));
 }
 
 Enemy::Enemy() {
@@ -101,7 +98,6 @@ void Enemy::_physics_process(double delta) {
                 return;
             }
             // code block
-            emit_signal("enemy_dodge");
             move = Moves::IDLE;
             break;
         case Moves::JUMP:
@@ -109,7 +105,6 @@ void Enemy::_physics_process(double delta) {
                 return;
             }
             // code block
-            emit_signal("enemy_jump");
             move = Moves::IDLE;
             break;
         case Moves::BLOCK:
@@ -124,7 +119,6 @@ void Enemy::_physics_process(double delta) {
                     return;
             }
             // code block
-            emit_signal("enemy_block");
             move = Moves::IDLE;
             break;
         default:
