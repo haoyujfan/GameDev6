@@ -20,6 +20,7 @@ private:
     double gravity;
     bool is_running;
     bool is_fighting;
+    bool got_blocked;
     Vector3 velocity;
     
 
@@ -40,6 +41,8 @@ public:
     double get_shield();
     void set_health(double p_health);
     double get_health();
+    void set_got_blocked(bool p_got_blocked);
+    void on_got_blocked();
     int get_move();
     void _ready() override;
     void _process(double delta) override;

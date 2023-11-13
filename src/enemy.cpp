@@ -42,7 +42,7 @@ Enemy::Enemy() {
     is_approaching = false;
     is_fighting = false;
     health = 100;
-    move = Moves::IDLE;
+    move = Moves::BLOCK;
 }
 
 
@@ -74,8 +74,8 @@ void Enemy::_physics_process(double delta) {
     }
     set_velocity(velocity);
     move_and_slide();
-    // if (is_fighting && move != Moves::CHOP)
-    //     move = Moves::CHOP;
+    if (is_fighting && move != Moves::BLOCK)
+        move = Moves::BLOCK;
     switch(move) {
         case Moves::IDLE:
             animation->play("Idle");
@@ -119,17 +119,10 @@ void Enemy::_physics_process(double delta) {
             break;
         case Moves::BLOCK:
             if(animation->get_current_animation() == "Blocking") {
-                if(input->is_action_pressed("block")) {
-                    animation->play("Blocking");
-                }
                 return;
             }
-            if(input->is_action_pressed("block")) {
-                    animation->play("Blocking");
-                    return;
-            }
-            // code block
-            move = Moves::IDLE;
+            // move = Moves::IDLE;
+            animation->play("Blocking");
             break;
         default:
             // code block

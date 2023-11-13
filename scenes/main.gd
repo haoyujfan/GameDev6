@@ -142,6 +142,7 @@ func _on_player_stab():
 	var move = e.get_move()
 	# block
 	if move == 6 :
+		get_node("Body").set_got_blocked(true);
 		return
 	else :
 		e.set_health(e.get_health() - 10)

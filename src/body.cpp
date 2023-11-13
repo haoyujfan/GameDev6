@@ -29,6 +29,7 @@ void Body::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_health"), &Body::get_health);
     ClassDB::bind_method(D_METHOD("set_health", "p_health"), &Body::set_health);
     ClassDB::bind_method(D_METHOD("get_move"), &Body::get_move);
+    ClassDB::bind_method(D_METHOD("set_got_blocked", "p_got_blocked"), &Body::set_got_blocked);
     ADD_SIGNAL(MethodInfo("player_chop"));
     ADD_SIGNAL(MethodInfo("player_slice"));
     ADD_SIGNAL(MethodInfo("player_stab"));
@@ -46,6 +47,7 @@ Body::Body() {
     health = 100;
     velocity = Vector3(0, 0, 0);
     is_running = true;
+    got_blocked = false;
 }
 
 void Body::_ready() {
@@ -93,6 +95,14 @@ void Body::_process(double delta) {
         animation->play("Running_A");
         return;
     }
+    if(got_blocked) {
+        UtilityFunctions::print("got blocked");
+        if(animation->get_current_animation() == "Cheer") {
+                return;
+        }
+        got_blocked = false;
+    }
+
     if(move != Moves::BLOCK) {
         shield += delta * 10;
         emit_signal("blocking", shield);
@@ -219,4 +229,14 @@ double Body::get_health() {
 
 int Body::get_move() {
     return move;
+}
+
+void Body::on_got_blocked() {
+    AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Knight/AnimationPlayer"));
+    animation->play("Cheer");
+}
+
+void Body::set_got_blocked(bool p_got_blocked) {
+    got_blocked = p_got_blocked;
+    on_got_blocked();
 }
