@@ -2,6 +2,7 @@
 
 #include "gdexample.h"
 #include "body.h"
+#include "enemy.h"
 
 #include <gdextension_interface.h>
 #include <godot_cpp/core/defs.hpp>
@@ -17,6 +18,7 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
 
 	ClassDB::register_class<GDExample>();
     ClassDB::register_class<Body>();
+	ClassDB::register_class<Enemy>();
 }
 
 void uninitialize_example_module(ModuleInitializationLevel p_level) {

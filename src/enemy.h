@@ -1,7 +1,7 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include "moves.h"
+#include "body.h"
 #include <godot_cpp/classes/character_body3d.hpp>
 #include <godot_cpp/classes/input.hpp>
 #include <godot_cpp/classes/ray_cast3d.hpp>
@@ -16,6 +16,8 @@ private:
     Input* input;
     int move;
     Array* player_move_list;
+    double gravity;
+    Vector3 velocity;
 
 
 protected:
@@ -26,6 +28,7 @@ public:
     ~Enemy();
     void _ready() override;
     void _process(double delta) override;
+    void _physics_process(double delta) override;
 };
 
 }

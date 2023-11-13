@@ -43,6 +43,8 @@ void Enemy::_bind_methods() {
 Enemy::Enemy() {
     input = Input::get_singleton();
     InputMap::get_singleton()->load_from_project_settings();
+    gravity = 1400.0;
+    velocity = Vector3(0, 0, 0);
 }
 
 
@@ -54,6 +56,15 @@ void Enemy::_process(double delta) {
     if(Engine::get_singleton()->is_editor_hint()) {
         return;
     }
-    
+}
 
+void Enemy::_physics_process(double delta) {
+    if(Engine::get_singleton()->is_editor_hint()) {
+        return;
+    }
+    if (!this->is_on_floor()) {
+        velocity.y -= gravity * delta;
+    }
+    set_velocity(velocity);
+    move_and_slide();
 }

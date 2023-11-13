@@ -155,7 +155,9 @@ void Body::_process(double delta) {
 }
 
 void Body::_physics_process(double delta) {
-    UtilityFunctions::print(this->get_position());
+    if(Engine::get_singleton()->is_editor_hint()) {
+        return;
+    }
     if (!this->is_on_floor()) {
             velocity.y -= gravity * delta;
     }
