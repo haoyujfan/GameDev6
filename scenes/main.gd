@@ -5,12 +5,11 @@ extends Node3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var arena = ArenaScene.instantiate()
+	var arena = get_node("Arena/Env_Main_Arena")
 	arena.position = Vector3(0,0,0);
 	arena.add_to_group("arena1")
 	var enemy = arena.get_node("Enemy");
 	enemy.add_to_group("enemy1");
-	$Arena.add_child(arena,true)
 	arena = ArenaScene.instantiate()
 	arena.position = Vector3(-300,0,0);
 	arena.add_to_group("arena2")
