@@ -19,6 +19,7 @@ Body::~Body() {
 }
 
 void Body::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("get_location"), &Body::get_location);
     ADD_SIGNAL(MethodInfo("player_chop"));
     ADD_SIGNAL(MethodInfo("player_slice"));
     ADD_SIGNAL(MethodInfo("player_stab"));
@@ -63,10 +64,16 @@ void Body::check_input() {
         }
 }
 
+Vector3 Body::get_location() {
+    return get_position();
+}
+
 void Body::_process(double delta) {
     if(Engine::get_singleton()->is_editor_hint()) {
         return;
     }
+    set_velocity(Vector3(-30,0,0));
+    move_and_slide();
     AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Knight/AnimationPlayer"));
     switch(move) {
         case Moves::IDLE:

@@ -49,7 +49,7 @@ Enemy::Enemy() {
 
 
 void Enemy::_ready() {
-    player = get_node<Body>("../Body");
+
 }
 
 void Enemy::_process(double delta) {
@@ -62,13 +62,13 @@ void Enemy::_physics_process(double delta) {
     if(Engine::get_singleton()->is_editor_hint()) {
         return;
     }
-    Vector3 dir = player->get_position() - this->get_position();
-    dir.normalize();
-    if (!this->is_on_floor()) {
-        velocity.y -= gravity * delta;
-    }
-    dir.y = velocity.y;
-    set_velocity(dir * 10);
+    // Vector3 dir = player->get_position() - this->get_position();
+    // dir.normalize();
+    // if (!this->is_on_floor()) {
+    //     velocity.y -= gravity * delta;
+    // }
+    // dir.y = velocity.y;
+    // set_velocity(dir * 10);
     move_and_slide();
-    set_position(get_position());
+    // set_position(get_position());
 }

@@ -27,6 +27,7 @@ public:
     Body();
     ~Body();
     void check_input();
+    Vector3 get_location();
     void _ready() override;
     void _process(double delta) override;
     void _physics_process(double delta) override;
