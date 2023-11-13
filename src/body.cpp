@@ -19,22 +19,6 @@ Body::~Body() {
 }
 
 void Body::_bind_methods() {
-    // ClassDB::bind_method(D_METHOD("get_gravity"), &Body::get_gravity);
-    // ClassDB::bind_method(D_METHOD("set_gravity", "p_gravity"), &Body::set_gravity);
-    // ClassDB::bind_method(D_METHOD("get_jump_velocity"), &Body::get_jump_velocity);
-    // ClassDB::bind_method(D_METHOD("set_jump_velocity", "p_jump_velocity"), &Body::set_jump_velocity);
-    // ClassDB::bind_method(D_METHOD("get_air_control"), &Body::get_air_control);
-    // ClassDB::bind_method(D_METHOD("set_air_control", "p_air_control"), &Body::set_air_control);
-    // ClassDB::bind_method(D_METHOD("get_air_resistance"), &Body::get_air_resistance);
-    // ClassDB::bind_method(D_METHOD("set_air_resistance", "p_air_resistance"), &Body::set_air_resistance);
-    // ClassDB::bind_method(D_METHOD("get_speed"), &Body::get_speed);
-    // ClassDB::bind_method(D_METHOD("set_speed", "p_speed"), &Body::set_speed);
-    // ClassDB::add_property("Body", PropertyInfo(Variant::FLOAT, "gravity"), "set_gravity", "get_gravity");
-    // ClassDB::add_property("Body", PropertyInfo(Variant::FLOAT, "jump_velocity"), "set_jump_velocity", "get_jump_velocity");
-    // ClassDB::add_property("Body", PropertyInfo(Variant::FLOAT, "air_control"), "set_air_control", "get_air_control");
-    // ClassDB::add_property("Body", PropertyInfo(Variant::FLOAT, "air_resistance"), "set_air_resistance", "get_air_resistance");
-    // ClassDB::add_property("Body", PropertyInfo(Variant::FLOAT, "speed"), "set_speed", "get_speed");
-
     ADD_SIGNAL(MethodInfo("player_chop"));
     ADD_SIGNAL(MethodInfo("player_slice"));
     ADD_SIGNAL(MethodInfo("player_stab"));
@@ -50,10 +34,7 @@ Body::Body() {
     velocity = Vector3(0, 0, 0);
 }
 
-
-void Body::_ready() {
-    
-}
+void Body::_ready() {}
 
 void Body::check_input() {
     AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Knight/AnimationPlayer"));

@@ -62,7 +62,6 @@ void Enemy::_physics_process(double delta) {
     if(Engine::get_singleton()->is_editor_hint()) {
         return;
     }
-    UtilityFunctions::print(get_position());
     Vector3 dir = player->get_position() - this->get_position();
     dir.normalize();
     if (!this->is_on_floor()) {
