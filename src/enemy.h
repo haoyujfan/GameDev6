@@ -18,6 +18,7 @@ private:
     Array* player_move_list;
     double gravity;
     Vector3 velocity;
+    Body* player;
 
 
 protected:
