@@ -62,7 +62,6 @@ func _process(_delta):
 	pass
 
 
-<<<<<<< Updated upstream
 func enemy_chop() :
 	var p = get_tree().get_first_node_in_group("player")
 	var move = p.get_move()
@@ -111,7 +110,3 @@ func enemy_stab() :
 
 func _on_body_blocking(shield):
 	get_node("GUI/GridContainer/HBoxContainer/Shield").set_value(shield)
-=======
-func _on_body_blocking(shield):
->>>>>>> Stashed changes
-	pass # Replace with function body.

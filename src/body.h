@@ -39,12 +39,8 @@ public:
     void set_shield(double p_shield);
     double get_shield();
     void set_health(double p_health);
-<<<<<<< Updated upstream
     double get_health();
     int get_move();
-=======
-    bool get_health();
->>>>>>> Stashed changes
     void _ready() override;
     void _process(double delta) override;
     void _physics_process(double delta) override;

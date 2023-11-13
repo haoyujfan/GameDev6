@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://bgxx8rs16d6hi"]
 
 [ext_resource type="PackedScene" uid="uid://cj8iufib42x12" path="res://ground.tscn" id="1_xidlm"]
-[ext_resource type="PackedScene" uid="uid://bu71yova8j8bn" path="res://wall_door.tscn" id="2_hdtgh"]
-[ext_resource type="PackedScene" uid="uid://du6ivbhhiubth" path="res://wall.tscn" id="3_xxvmd"]
+[ext_resource type="PackedScene" path="res://wall_door.tscn" id="2_hdtgh"]
+[ext_resource type="PackedScene" path="res://wall.tscn" id="3_xxvmd"]
 [ext_resource type="PackedScene" uid="uid://c11uo13dew2b8" path="res://env_hallway.tscn" id="4_xl7gr"]
 [ext_resource type="PackedScene" uid="uid://da08ne6tl5nbi" path="res://enemy.tscn" id="5_foade"]
 

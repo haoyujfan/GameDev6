@@ -28,10 +28,7 @@ void Body::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_shield", "p_shield"), &Body::set_shield);
     ClassDB::bind_method(D_METHOD("get_health"), &Body::get_health);
     ClassDB::bind_method(D_METHOD("set_health", "p_health"), &Body::set_health);
-<<<<<<< Updated upstream
     ClassDB::bind_method(D_METHOD("get_move"), &Body::get_move);
-=======
->>>>>>> Stashed changes
     ADD_SIGNAL(MethodInfo("player_chop"));
     ADD_SIGNAL(MethodInfo("player_slice"));
     ADD_SIGNAL(MethodInfo("player_stab"));
@@ -148,7 +145,6 @@ void Body::_process(double delta) {
             move = Moves::IDLE;
             break;
         case Moves::BLOCK:
-<<<<<<< Updated upstream
             if(shield < 0) {
                 shield = 0;
                 move = Moves::IDLE;
@@ -156,9 +152,6 @@ void Body::_process(double delta) {
                 return;
             }
             shield -= delta*20;
-=======
-            shield -= delta;
->>>>>>> Stashed changes
             emit_signal("blocking", shield);
             if(animation->get_current_animation() == "Blocking") {
                 if(input->is_action_pressed("block")) {
@@ -220,15 +213,10 @@ void Body::set_health(double p_health) {
     health = p_health;
 }
 
-<<<<<<< Updated upstream
 double Body::get_health() {
     return health;
 }
 
 int Body::get_move() {
     return move;
-=======
-bool Body::get_health() {
-    return health;
->>>>>>> Stashed changes
 }

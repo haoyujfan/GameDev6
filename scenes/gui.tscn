@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://t5678ht0nrnk"]
+[gd_scene load_steps=6 format=3 uid="uid://qgpt0l3x0ata"]
 
 [ext_resource type="Texture2D" uid="uid://dgibhddc8adyt" path="res://2D Health & Ammo Pickups v6.2/32px/health-red 32px.png" id="1_hcqut"]
 [ext_resource type="Texture2D" uid="uid://c310nhtuax664" path="res://2D Health & Ammo Pickups v6.2/32px/health-armor 32px.png" id="2_bads0"]
