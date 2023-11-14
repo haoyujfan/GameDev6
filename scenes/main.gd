@@ -13,6 +13,7 @@ func _ready():
 	enemy.connect("enemy_chop", enemy_chop);
 	enemy.connect("enemy_slice", enemy_slice);
 	enemy.connect("enemy_stab", enemy_stab);
+	enemy.connect("enemy_death", enemy_death);
 	arena = ArenaScene.instantiate()
 	arena.position = Vector3(-300,0,0);
 	arena.add_to_group("arena2")
@@ -21,6 +22,7 @@ func _ready():
 	enemy.connect("enemy_chop", enemy_chop);
 	enemy.connect("enemy_slice", enemy_slice);
 	enemy.connect("enemy_stab", enemy_stab);
+	enemy.connect("enemy_death", enemy_death);
 	$Arena.add_child(arena,true)
 
 	# var player = PlayerScene.instantiate()
@@ -37,7 +39,7 @@ func _process(_delta):
 	var e = get_tree().get_first_node_in_group("enemy1")
 	var e2 = get_tree().get_first_node_in_group("enemy2")
 	
-	if(p.get_running() && p.get_location().x < a.global_position.x+10 && p.get_location().x > a.global_position.x+5) :
+	if(e.get_health() > 0 && p.get_running() && p.get_location().x < a.global_position.x+10 && p.get_location().x > a.global_position.x+5) :
 		p.set_running(false);
 		e.set_approaching(true);
 		print("approaching")
@@ -102,6 +104,12 @@ func enemy_stab() :
 		p.set_health(p.get_health() - 10)
 		update_health(p.get_health())
 	pass
+	
+func enemy_death() :
+	var p = get_tree().get_first_node_in_group("player")
+	p.set_running(true);
+	
+	
 
 func _on_body_blocking(shield):
 	get_node("GUI/GridContainer/HBoxContainer/Shield").set_value(shield)

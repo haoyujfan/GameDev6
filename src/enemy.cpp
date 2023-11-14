@@ -11,6 +11,7 @@
 #include <godot_cpp/classes/animation_player.hpp>
 #include <godot_cpp/classes/audio_stream_player.hpp>
 #include <godot_cpp/classes/progress_bar.hpp>
+#include <godot_cpp/classes/collision_shape3d.hpp>
 
 
 using namespace godot;
@@ -32,6 +33,7 @@ void Enemy::_bind_methods() {
     ADD_SIGNAL(MethodInfo("enemy_chop"));
     ADD_SIGNAL(MethodInfo("enemy_slice"));
     ADD_SIGNAL(MethodInfo("enemy_stab"));
+    ADD_SIGNAL(MethodInfo("enemy_death"));
 }
 
 Enemy::Enemy() {
@@ -41,8 +43,9 @@ Enemy::Enemy() {
     velocity = Vector3(0, 0, 0);
     is_approaching = false;
     is_fighting = false;
-    health = 100;
-    move = Moves::BLOCK;
+    dead = false;
+    health = 1;
+    move = Moves::IDLE;
 }
 
 
@@ -60,11 +63,23 @@ void Enemy::_physics_process(double delta) {
     if(Engine::get_singleton()->is_editor_hint()) {
         return;
     }
+    AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Barbarian/AnimationPlayer"));
+    if(dead) {
+        UtilityFunctions::print("died");
+        if(animation->get_current_animation() == "Death_A") {
+                return;
+        }
+        dead = true;
+        animation->play("Death_A_Pose");
+        emit_signal("enemy_death");
+        if (get_node_or_null("CollisionShape3D"))
+            get_node<CollisionShape3D>("CollisionShape3D")->queue_free();
+        return;
+    }
     velocity.x = 0;
     if (!this->is_on_floor()) {
             velocity.y -= gravity * delta;
     }
-    AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Barbarian/AnimationPlayer"));
     if(is_approaching) {
         velocity.x = 30;
         set_velocity(velocity);
@@ -74,8 +89,8 @@ void Enemy::_physics_process(double delta) {
     }
     set_velocity(velocity);
     move_and_slide();
-    if (is_fighting && move != Moves::BLOCK)
-        move = Moves::BLOCK;
+    // if (is_fighting && move != Moves::BLOCK)
+    //     move = Moves::BLOCK;
     switch(move) {
         case Moves::IDLE:
             animation->play("Idle");
@@ -158,6 +173,11 @@ int Enemy::get_move() {
 void Enemy::set_health(double p_health) {
     health = p_health;
     get_node<ProgressBar>("SubViewport/ProgressBar")->set_value(health);
+    if (health <= 0) {
+        dead = true;
+        AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Barbarian/AnimationPlayer"));
+        animation->play("Death_A");
+    }
 }
 
 double Enemy::get_health() {

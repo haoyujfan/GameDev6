@@ -21,8 +21,8 @@ private:
     Body* player;
     bool is_approaching;
     bool is_fighting;
+    bool dead;
     double health;
-    
 
 
 protected:
