@@ -1,30 +1,56 @@
 [gd_scene load_steps=6 format=3 uid="uid://bu71yova8j8bn"]
 
+[ext_resource type="PackedScene" uid="uid://dencd23fjtj2q" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/wall_shelves.gltf.glb" id="1_ntj7q"]
+[ext_resource type="PackedScene" uid="uid://bat1l057w8edx" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/wall_endcap.gltf.glb" id="2_3uq51"]
+[ext_resource type="PackedScene" uid="uid://cuv6foo45ufnw" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/wall_archedwindow_open.gltf.glb" id="3_mbf4k"]
+[ext_resource type="PackedScene" uid="uid://d3wq33he60rn7" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/wall.gltf.glb" id="4_swfsr"]
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_s6wq0"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_0lvip"]
-size = Vector3(2, 50, 100)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fe5kw"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_x68ey"]
-size = Vector3(2, 25, 25)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a73fv"]
+size = Vector3(5, 60, 100)
 
 [node name="Wall_Door" type="StaticBody3D"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_s6wq0")
 
-[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
-use_collision = true
-mesh = SubResource("BoxMesh_0lvip")
-material = SubResource("StandardMaterial3D_fe5kw")
+[node name="wall_shelves_gltf" parent="." instance=ExtResource("1_ntj7q")]
+transform = Transform3D(-2.18557e-07, 1.74393e-15, 5, 1.74393e-15, 5, -1.74393e-15, -5, 1.74393e-15, -2.18557e-07, 2.08165e-12, -30, 40)
 
-[node name="CSGMesh3D" type="CSGMesh3D" parent="CSGMesh3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -12.5, 2.08165e-12)
-operation = 2
-use_collision = true
-mesh = SubResource("BoxMesh_x68ey")
-material = SubResource("StandardMaterial3D_a73fv")
+[node name="wall_shelves_gltf2" parent="." instance=ExtResource("1_ntj7q")]
+transform = Transform3D(-2.18557e-07, 1.74393e-15, 5, 1.74393e-15, 5, -1.74393e-15, -5, 1.74393e-15, -2.18557e-07, 2.08165e-12, -30, -40)
+
+[node name="wall_shelves_gltf3" parent="." instance=ExtResource("1_ntj7q")]
+transform = Transform3D(-2.18557e-07, 1.74393e-15, 5, 1.74393e-15, 5, -1.74393e-15, -5, 1.74393e-15, -2.18557e-07, 2.08165e-12, -10, -40)
+
+[node name="wall_shelves_gltf4" parent="." instance=ExtResource("1_ntj7q")]
+transform = Transform3D(-2.18557e-07, 1.74393e-15, 5, 1.74393e-15, 5, -1.74393e-15, -5, 1.74393e-15, -2.18557e-07, 2.08165e-12, -10, 40)
+
+[node name="wall_endcap_gltf" parent="." instance=ExtResource("2_3uq51")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -2, -30, 27)
+
+[node name="wall_endcap_gltf2" parent="." instance=ExtResource("2_3uq51")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -2, -30, -27)
+
+[node name="wall_archedwindow_open_gltf" parent="." instance=ExtResource("3_mbf4k")]
+transform = Transform3D(-2.18557e-07, 1.74393e-15, 5, 1.74393e-15, 5, -1.74393e-15, -5, 1.74393e-15, -2.18557e-07, 0, 10, 40)
+
+[node name="wall_archedwindow_open_gltf2" parent="." instance=ExtResource("3_mbf4k")]
+transform = Transform3D(-2.18557e-07, 1.74393e-15, 5, 1.74393e-15, 5, -1.74393e-15, -5, 1.74393e-15, -2.18557e-07, 0, 10, -40)
+
+[node name="wall_archedwindow_open_gltf3" parent="." instance=ExtResource("3_mbf4k")]
+transform = Transform3D(-2.18557e-07, 1.74393e-15, 5, 1.74393e-15, 5, -1.74393e-15, -5, 1.74393e-15, -2.18557e-07, 0, 10, 0)
+
+[node name="wall_gltf" parent="." instance=ExtResource("4_swfsr")]
+transform = Transform3D(-2.18557e-07, 1.74393e-15, 5, 1.74393e-15, 5, -1.74393e-15, -5, 1.74393e-15, -2.18557e-07, 0, 10, 20)
+
+[node name="wall_gltf2" parent="." instance=ExtResource("4_swfsr")]
+transform = Transform3D(-2.18557e-07, 1.74393e-15, 5, 1.74393e-15, 5, -1.74393e-15, -5, 1.74393e-15, -2.18557e-07, 0, 10, -20)
+
+[node name="wall_gltf3" parent="." instance=ExtResource("4_swfsr")]
+transform = Transform3D(-2.18557e-07, 1.74393e-15, 5, 1.74393e-15, 5, -1.74393e-15, -5, 1.74393e-15, -2.18557e-07, 0, -10, -20)
+
+[node name="wall_gltf4" parent="." instance=ExtResource("4_swfsr")]
+transform = Transform3D(-2.18557e-07, 1.74393e-15, 5, 1.74393e-15, 5, -1.74393e-15, -5, 1.74393e-15, -2.18557e-07, 0, -10, 0)
+
+[node name="wall_gltf5" parent="." instance=ExtResource("4_swfsr")]
+transform = Transform3D(-2.18557e-07, 1.74393e-15, 5, 1.74393e-15, 5, -1.74393e-15, -5, 1.74393e-15, -2.18557e-07, 0, -10, 20)
