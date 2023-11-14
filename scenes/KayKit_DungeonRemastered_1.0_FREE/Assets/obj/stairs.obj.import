@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cxo3n1jokdglc"
+path="res://.godot/imported/stairs.obj-0ba2e746381bacc736c51a9ac55ee551.mesh"
+
+[deps]
+
+files=["res://.godot/imported/stairs.obj-0ba2e746381bacc736c51a9ac55ee551.mesh"]
+
+source_file="res://KayKit_DungeonRemastered_1.0_FREE/Assets/obj/stairs.obj"
+dest_files=["res://.godot/imported/stairs.obj-0ba2e746381bacc736c51a9ac55ee551.mesh", "res://.godot/imported/stairs.obj-0ba2e746381bacc736c51a9ac55ee551.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cbq8rpmfubwq5"
+path="res://.godot/imported/banner_thin_red.obj-b3c7b33356bd17985b681083c06eed6d.mesh"
+
+[deps]
+
+files=["res://.godot/imported/banner_thin_red.obj-b3c7b33356bd17985b681083c06eed6d.mesh"]
+
+source_file="res://KayKit_DungeonRemastered_1.0_FREE/Assets/obj/banner_thin_red.obj"
+dest_files=["res://.godot/imported/banner_thin_red.obj-b3c7b33356bd17985b681083c06eed6d.mesh", "res://.godot/imported/banner_thin_red.obj-b3c7b33356bd17985b681083c06eed6d.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

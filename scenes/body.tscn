@@ -9,7 +9,7 @@ height = 2.5
 [node name="Body" type="Body"]
 
 [node name="Knight" parent="." instance=ExtResource("1_jxhqe")]
-transform = Transform3D(-4, 1.39515e-15, -6.03983e-07, 1.39515e-15, 4, -1.39515e-15, 6.03983e-07, -1.39515e-15, -4, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+transform = Transform3D(-4, 1.39515e-15, -3.49691e-07, 1.39515e-15, 4, -1.39515e-15, 3.49691e-07, -1.39515e-15, -4, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 4.47639, 0)
