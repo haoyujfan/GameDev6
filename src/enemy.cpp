@@ -39,7 +39,7 @@ void Enemy::_bind_methods() {
 Enemy::Enemy() {
     input = Input::get_singleton();
     InputMap::get_singleton()->load_from_project_settings();
-    gravity = 1400.0;
+    gravity = 0.0;
     velocity = Vector3(0, 0, 0);
     is_approaching = false;
     is_fighting = false;
@@ -64,9 +64,8 @@ void Enemy::_physics_process(double delta) {
     if(Engine::get_singleton()->is_editor_hint()) {
         return;
     }
-    AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Barbarian/AnimationPlayer"));
+    AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Skin/AnimationPlayer"));
     if(dying) {
-        UtilityFunctions::print("died");
         if(animation->get_current_animation() == "Death_A") {
                 return;
         }
@@ -79,6 +78,7 @@ void Enemy::_physics_process(double delta) {
     }
     if(dead) {
         animation->play("Death_A_Pose");
+        return;
     }
     velocity.x = 0;
     if (!this->is_on_floor()) {
@@ -179,7 +179,7 @@ void Enemy::set_health(double p_health) {
     get_node<ProgressBar>("SubViewport/ProgressBar")->set_value(health);
     if (health <= 0) {
         dying = true;
-        AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Barbarian/AnimationPlayer"));
+        AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Skin/AnimationPlayer"));
         animation->play("Death_A");
     }
 }

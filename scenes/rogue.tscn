@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://da08ne6tl5nbi"]
+[gd_scene load_steps=5 format=3 uid="uid://c8v0di6i72sfy"]
 
-[ext_resource type="PackedScene" uid="uid://d0csmufdxes1n" path="res://KayKit_Adventurers_1.0_FREE/Characters/gltf/Barbarian.glb" id="1_5qa0l"]
+[ext_resource type="PackedScene" uid="uid://b78v0aholucya" path="res://KayKit_Adventurers_1.0_FREE/Characters/gltf/Rogue_Hooded.glb" id="1_q62jl"]
 [ext_resource type="PackedScene" uid="uid://dl0ul6uupkpt1" path="res://health_bar.tscn" id="2_x05el"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bei0b"]
@@ -12,7 +12,7 @@ viewport_path = NodePath("SubViewport")
 
 [node name="Enemy" type="Enemy"]
 
-[node name="Skin" parent="." instance=ExtResource("1_5qa0l")]
+[node name="Skin" parent="." instance=ExtResource("1_q62jl")]
 transform = Transform3D(-4, 1.39515e-15, -3.49691e-07, 1.39515e-15, 4, -1.39515e-15, 3.49691e-07, -1.39515e-15, -4, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
