@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bu71yova8j8bn"]
+[gd_scene load_steps=7 format=3 uid="uid://dk37sn5bppwnq"]
 
 [ext_resource type="PackedScene" uid="uid://dencd23fjtj2q" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/wall_shelves.gltf.glb" id="1_ntj7q"]
 [ext_resource type="PackedScene" uid="uid://bat1l057w8edx" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/wall_endcap.gltf.glb" id="2_3uq51"]
@@ -6,11 +6,15 @@
 [ext_resource type="PackedScene" uid="uid://d3wq33he60rn7" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/wall.gltf.glb" id="4_swfsr"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_s6wq0"]
-size = Vector3(5, 60, 100)
+size = Vector3(5, 40, 100)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_02mn6"]
+size = Vector3(5, 20, 20)
 
 [node name="Wall_Door" type="StaticBody3D"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 10, 2.08165e-12)
 shape = SubResource("BoxShape3D_s6wq0")
 
 [node name="wall_shelves_gltf" parent="." instance=ExtResource("1_ntj7q")]
@@ -54,3 +58,11 @@ transform = Transform3D(-2.18557e-07, 1.74393e-15, 5, 1.74393e-15, 5, -1.74393e-
 
 [node name="wall_gltf5" parent="." instance=ExtResource("4_swfsr")]
 transform = Transform3D(-2.18557e-07, 1.74393e-15, 5, 1.74393e-15, 5, -1.74393e-15, -5, 1.74393e-15, -2.18557e-07, 0, -10, 20)
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -20, 40)
+shape = SubResource("BoxShape3D_02mn6")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -20, -40)
+shape = SubResource("BoxShape3D_02mn6")
