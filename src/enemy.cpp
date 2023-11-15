@@ -104,8 +104,7 @@ void Enemy::_physics_process(double delta) {
                 return;
             }
             emit_signal("enemy_chop");
-            // move = Moves::IDLE;
-            animation->play("1H_Melee_Attack_Chop");
+            move = Moves::IDLE;
             break;
         case Moves::SLICE:
             if(animation->get_current_animation() == "1H_Melee_Attack_Slice_Horizontal") {
@@ -119,32 +118,28 @@ void Enemy::_physics_process(double delta) {
                 return;
             }
             emit_signal("enemy_stab");
-            // code block
             move = Moves::IDLE;
             break;
         case Moves::DODGE:
             if(animation->get_current_animation() == "Dodge_Left") {
                 return;
             }
-            // code block
             move = Moves::IDLE;
             break;
         case Moves::JUMP:
             if(animation->get_current_animation() == "Jump_Full_Short") {
                 return;
             }
-            // code block
             move = Moves::IDLE;
             break;
         case Moves::BLOCK:
             if(animation->get_current_animation() == "Blocking") {
                 return;
             }
-            // move = Moves::IDLE;
-            animation->play("Blocking");
+            move = Moves::IDLE;
             break;
         default:
-            // code block
+            move = Moves::IDLE;
             break;
         animation->play("Idle");
     }
