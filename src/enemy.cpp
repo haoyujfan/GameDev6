@@ -93,8 +93,9 @@ void Enemy::_physics_process(double delta) {
     }
     set_velocity(velocity);
     move_and_slide();
-    // if (is_fighting && move != Moves::BLOCK)
-    //     move = Moves::BLOCK;
+    if (is_fighting) {
+        pick_move();
+    }
     switch(move) {
         case Moves::IDLE:
             animation->play("Idle");
@@ -181,4 +182,11 @@ void Enemy::set_health(double p_health) {
 
 double Enemy::get_health() {
     return health;
+}
+
+void Enemy::pick_move() {
+
+    move = Moves::SLICE;
+    AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Skin/AnimationPlayer"));
+    animation->play("1H_Melee_Attack_Slice_Horizontal");
 }

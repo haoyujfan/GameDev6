@@ -43,6 +43,7 @@ public:
     int get_move();
     void set_health(double p_health);
     double get_health();
+    void pick_move();
 };
 
 }
