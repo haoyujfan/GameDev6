@@ -93,12 +93,12 @@ void Enemy::_physics_process(double delta) {
     }
     set_velocity(velocity);
     move_and_slide();
-    if (is_fighting) {
-        pick_move();
-    }
     switch(move) {
         case Moves::IDLE:
             animation->play("Idle");
+            if (is_fighting) {
+                pick_move();
+            }
             break;
         case Moves::CHOP:
             if(animation->get_current_animation() == "1H_Melee_Attack_Chop") {
@@ -142,7 +142,6 @@ void Enemy::_physics_process(double delta) {
         default:
             move = Moves::IDLE;
             break;
-        animation->play("Idle");
     }
 }
 
@@ -185,8 +184,29 @@ double Enemy::get_health() {
 }
 
 void Enemy::pick_move() {
-
-    move = Moves::SLICE;
+    move = rand.randi_range(1, 6); // inclusive
     AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Skin/AnimationPlayer"));
-    animation->play("1H_Melee_Attack_Slice_Horizontal");
+    switch(move) {
+        case Moves::CHOP:
+            animation->play("1H_Melee_Attack_Chop");
+            break;
+        case Moves::SLICE:
+            animation->play("1H_Melee_Attack_Slice_Horizontal");
+            break;
+        case Moves::STAB:
+            animation->play("1H_Melee_Attack_Stab");
+            break;
+        case Moves::DODGE:
+            animation->play("Dodge_Right");
+            break;
+        case Moves::JUMP:
+            animation->play("Jump_Full_Short");
+            break;
+        case Moves::BLOCK:
+            animation->play("Blocking");
+            break;
+        default:
+            animation->play("Idle");
+            break;
+    }
 }
