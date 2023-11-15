@@ -43,6 +43,7 @@ Enemy::Enemy() {
     velocity = Vector3(0, 0, 0);
     is_approaching = false;
     is_fighting = false;
+    dying = false;
     dead = false;
     health = 1;
     move = Moves::IDLE;
@@ -64,17 +65,20 @@ void Enemy::_physics_process(double delta) {
         return;
     }
     AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Barbarian/AnimationPlayer"));
-    if(dead) {
+    if(dying) {
         UtilityFunctions::print("died");
         if(animation->get_current_animation() == "Death_A") {
                 return;
         }
+        dying = false;
         dead = true;
-        animation->play("Death_A_Pose");
         emit_signal("enemy_death");
         if (get_node_or_null("CollisionShape3D"))
             get_node<CollisionShape3D>("CollisionShape3D")->queue_free();
         return;
+    }
+    if(dead) {
+        animation->play("Death_A_Pose");
     }
     velocity.x = 0;
     if (!this->is_on_floor()) {
@@ -174,7 +178,7 @@ void Enemy::set_health(double p_health) {
     health = p_health;
     get_node<ProgressBar>("SubViewport/ProgressBar")->set_value(health);
     if (health <= 0) {
-        dead = true;
+        dying = true;
         AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Barbarian/AnimationPlayer"));
         animation->play("Death_A");
     }

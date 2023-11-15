@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://qgpt0l3x0ata"]
+[gd_scene load_steps=7 format=3 uid="uid://qgpt0l3x0ata"]
 
+[ext_resource type="FontFile" uid="uid://ddwlhv6utpbsb" path="res://font/Canterbury.ttf" id="1_g8e47"]
 [ext_resource type="Texture2D" uid="uid://dgibhddc8adyt" path="res://2D Health & Ammo Pickups v6.2/32px/health-red 32px.png" id="1_hcqut"]
 [ext_resource type="Texture2D" uid="uid://c310nhtuax664" path="res://2D Health & Ammo Pickups v6.2/32px/health-armor 32px.png" id="2_bads0"]
 
@@ -37,13 +38,23 @@ layout_mode = 0
 offset_right = 1152.0
 offset_bottom = 648.0
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="GridContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="GridContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GridContainer/HBoxContainer3"]
+layout_mode = 2
+
+[node name="ScoreBox" type="HBoxContainer" parent="GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="GridContainer/HBoxContainer2"]
+[node name="ScoreLabel" type="Label" parent="GridContainer/ScoreBox"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("1_g8e47")
+theme_override_font_sizes/font_size = 50
+text = "0"
+horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="GridContainer"]
 layout_mode = 2

@@ -22,6 +22,7 @@ private:
     bool is_approaching;
     bool is_fighting;
     bool dead;
+    bool dying;
     double health;
 
 

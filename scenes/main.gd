@@ -1,7 +1,7 @@
 extends Node3D
 @export var ArenaScene: PackedScene
 @export var PlayerScene: PackedScene
-
+var kills = 0;
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -114,6 +114,8 @@ func enemy_death() :
 	var p = get_tree().get_first_node_in_group("player")
 	p.set_running(true);
 	p.set_fighting(false);
+	kills += 1
+	get_node("GUI/GridContainer/ScoreBox/ScoreLabel").set_text(str(kills))
 	
 	
 
