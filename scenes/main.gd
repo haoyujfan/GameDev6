@@ -15,7 +15,7 @@ func _ready():
 	enemy.connect("enemy_stab", enemy_stab);
 	enemy.connect("enemy_death", enemy_death);
 	arena = ArenaScene.instantiate()
-	arena.position = Vector3(-340,0,0);
+	arena.position = Vector3(-300,0,0);
 	arena.add_to_group("arena2")
 	enemy = arena.get_node("Enemy");
 	enemy.add_to_group("enemy2");
@@ -51,7 +51,7 @@ func _process(_delta):
 		return;
 	if(p.get_location().x < a.global_position.x-200) :
 		var arena = ArenaScene.instantiate()
-		arena.position = Vector3(a.global_position.x-680,a.global_position.y,a.global_position.z);
+		arena.position = Vector3(a.global_position.x-600,a.global_position.y,a.global_position.z);
 		arena.add_to_group("arena2")
 		arena.get_node("Enemy").add_to_group("enemy2")
 		a2.remove_from_group("arena2")
