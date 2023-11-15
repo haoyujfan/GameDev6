@@ -39,14 +39,15 @@ func _process(_delta):
 	var e = get_tree().get_first_node_in_group("enemy1")
 	var e2 = get_tree().get_first_node_in_group("enemy2")
 	
-	if(e.get_health() > 0 && p.get_running() && p.get_location().x < a.global_position.x+10 && p.get_location().x > a.global_position.x+5) :
+	if(e.get_health() > 0 && p.get_running() && abs(p.get_location().x - a.global_position.x) < 7) :
 		p.set_running(false);
 		e.set_approaching(true);
 		print("approaching")
 		return;
-	if(e.get_approaching() && e.get_location().x > p.get_location().x-10) :
+	if(e.get_approaching() && abs(e.global_position.x - p.global_position.x) < 6) :
 		e.set_approaching(false);
 		e.set_fighting(true);
+		p.set_fighting(true);
 		print("next to them")
 		return;
 	if(p.get_location().x < a.global_position.x-200) :
@@ -58,6 +59,10 @@ func _process(_delta):
 		a2.add_to_group("arena1")
 		e2.remove_from_group("enemy2")
 		e2.add_to_group("enemy1")
+		e2.connect("enemy_chop", enemy_chop);
+		e2.connect("enemy_slice", enemy_slice);
+		e2.connect("enemy_stab", enemy_stab);
+		e2.connect("enemy_death", enemy_death);
 		$Arena.add_child(arena,true)
 		a.queue_free();
 		
@@ -108,6 +113,7 @@ func enemy_stab() :
 func enemy_death() :
 	var p = get_tree().get_first_node_in_group("player")
 	p.set_running(true);
+	p.set_fighting(false);
 	
 	
 

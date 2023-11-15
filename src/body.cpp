@@ -109,6 +109,11 @@ void Body::_process(double delta) {
     }
     if(shield > 100)
             shield = 100;
+    
+    if(!is_fighting) {
+        return;
+    }
+
     switch(move) {
         case Moves::IDLE:
             // code block
