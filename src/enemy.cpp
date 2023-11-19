@@ -18,7 +18,6 @@ using namespace godot;
 
 Enemy::~Enemy() {
     // Add your cleanup here.
-    player_move_list = new Array();
 }
 
 void Enemy::_bind_methods() {
@@ -30,6 +29,7 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_move"), &Enemy::get_move);
     ClassDB::bind_method(D_METHOD("get_health"), &Enemy::get_health);
     ClassDB::bind_method(D_METHOD("set_health", "p_health"), &Enemy::set_health);
+    ClassDB::bind_method(D_METHOD("add_move_list", "move"), &Enemy::add_move_list);
     ADD_SIGNAL(MethodInfo("enemy_chop"));
     ADD_SIGNAL(MethodInfo("enemy_slice"));
     ADD_SIGNAL(MethodInfo("enemy_stab"));
@@ -45,13 +45,13 @@ Enemy::Enemy() {
     is_fighting = false;
     dying = false;
     dead = false;
-    health = 1;
+    health = 50;
     move = Moves::IDLE;
 }
 
 
 void Enemy::_ready() {
-
+    player_move_list = new Array();
 }
 
 void Enemy::_process(double delta) {
@@ -209,4 +209,9 @@ void Enemy::pick_move() {
             animation->play("Idle");
             break;
     }
+
+}
+
+void Enemy::add_move_list(int move) {
+    player_move_list->append(move);
 }

@@ -128,6 +128,7 @@ func update_health(health):
 
 func _on_player_chop():
 	var e = get_tree().get_first_node_in_group("enemy1")
+	e.add_move_list(2)
 	var move = e.get_move()
 	# dodge
 	if move == 4 :
@@ -141,6 +142,7 @@ func _on_player_chop():
 
 func _on_player_slice():
 	var e = get_tree().get_first_node_in_group("enemy1")
+	e.add_move_list(3)
 	var move = e.get_move()
 	# jump
 	if move == 5 :
@@ -155,6 +157,7 @@ func _on_player_slice():
 
 func _on_player_stab():
 	var e = get_tree().get_first_node_in_group("enemy1")
+	e.add_move_list(4)
 	var move = e.get_move()
 	# block
 	if move == 6 :
@@ -162,4 +165,22 @@ func _on_player_stab():
 		return
 	else :
 		e.set_health(e.get_health() - 10)
+	pass # Replace with function body.
+
+
+func _on_player_dodge():
+	var e = get_tree().get_first_node_in_group("enemy1")
+	e.add_move_list(5)
+	pass # Replace with function body.
+
+
+func _on_player_jump():
+	var e = get_tree().get_first_node_in_group("enemy1")
+	e.add_move_list(6)
+	pass # Replace with function body.
+
+
+func _on_player_block():
+	var e = get_tree().get_first_node_in_group("enemy1")
+	e.add_move_list(7)
 	pass # Replace with function body.

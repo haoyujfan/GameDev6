@@ -46,6 +46,7 @@ public:
     void set_health(double p_health);
     double get_health();
     void pick_move();
+    void add_move_list(int move);
 };
 
 }
