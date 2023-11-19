@@ -29,7 +29,7 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_move"), &Enemy::get_move);
     ClassDB::bind_method(D_METHOD("get_health"), &Enemy::get_health);
     ClassDB::bind_method(D_METHOD("set_health", "p_health"), &Enemy::set_health);
-    ClassDB::bind_method(D_METHOD("add_move_list", "move"), &Enemy::add_move_list);
+    ClassDB::bind_method(D_METHOD("add_move_list", "m"), &Enemy::add_move_list);
     ADD_SIGNAL(MethodInfo("enemy_chop"));
     ADD_SIGNAL(MethodInfo("enemy_slice"));
     ADD_SIGNAL(MethodInfo("enemy_stab"));
@@ -47,11 +47,14 @@ Enemy::Enemy() {
     dead = false;
     health = 50;
     move = Moves::IDLE;
+    total_moves = 0;
+
+    aggressiveness = 0.5;
 }
 
 
 void Enemy::_ready() {
-    player_move_list = new Array();
+    
 }
 
 void Enemy::_process(double delta) {
@@ -184,7 +187,7 @@ double Enemy::get_health() {
 }
 
 void Enemy::pick_move() {
-    move = rand.randi_range(1, 6); // inclusive
+    // move = rand.randi_range(1, 6); // inclusive
     AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Skin/AnimationPlayer"));
     switch(move) {
         case Moves::CHOP:
@@ -209,9 +212,46 @@ void Enemy::pick_move() {
             animation->play("Idle");
             break;
     }
-
 }
 
-void Enemy::add_move_list(int move) {
-    player_move_list->append(move);
+void Enemy::defuzzify() {
+    // Higher aggressiveness means lower chance of defensive move
+    double aggression_factor = rand.randf_range(0, 1);
+    if (aggression_factor <= aggressiveness) {
+        move = rand.randi_range(1, 3);
+    } else {
+        move = rand.randi_range(4, 6);
+    }
+
+    
+}
+
+void Enemy::add_move_list(int m) {
+    player_move_list[m] += 1;
+    total_moves += 1;
+    switch(m) {
+        case Moves::CHOP:
+            chop_probability = player_move_list[m] / total_moves;
+            break;
+        case Moves::SLICE:
+            slice_probability = player_move_list[m] / total_moves;
+            break;
+        case Moves::STAB:
+            stab_probability = player_move_list[m] / total_moves;
+            break;
+        case Moves::DODGE:
+            dodge_probability = player_move_list[m] / total_moves;
+            break;
+        case Moves::JUMP:
+            jump_probability = player_move_list[m] / total_moves;
+            break;
+        case Moves::BLOCK:
+            jump_probability = player_move_list[m] / total_moves;
+            break;
+        default:
+            break;
+    }
+    // for (int i = 0; i < 7; i++) {
+    //     UtilityFunctions::print(player_move_list[i]);
+    // }
 }
