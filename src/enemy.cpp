@@ -188,6 +188,7 @@ double Enemy::get_health() {
 
 void Enemy::pick_move() {
     // move = rand.randi_range(1, 6); // inclusive
+    predict();
     AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Skin/AnimationPlayer"));
     switch(move) {
         case Moves::CHOP:
@@ -214,43 +215,148 @@ void Enemy::pick_move() {
     }
 }
 
-void Enemy::defuzzify() {
-    // Higher aggressiveness means lower chance of defensive move
-    double aggression_factor = rand.randf_range(0, 1);
-    if (aggression_factor <= aggressiveness) {
-        move = rand.randi_range(1, 3);
+void Enemy::predict() {
+    UtilityFunctions::print("Probabilities:");
+    UtilityFunctions::print((double)(block_probability + jump_probability + dodge_probability + stab_probability + slice_probability + chop_probability)); 
+
+    double prediction = rand.randf_range(0, 1);
+    if (prediction <= chop_probability) {
+        move_response(Moves::CHOP);
+    } else if (prediction <= slice_probability + chop_probability) {
+        move_response(Moves::SLICE);
+    } else if (prediction <= stab_probability + slice_probability + chop_probability) {
+        move_response(Moves::STAB);
+    } else if (prediction <= dodge_probability + stab_probability + slice_probability + chop_probability) {
+        move_response(Moves::DODGE);
+    } else if (prediction <= jump_probability + dodge_probability + stab_probability + slice_probability + chop_probability) {
+        move_response(Moves::JUMP);
+    } else if (prediction <= block_probability + jump_probability + dodge_probability + stab_probability + slice_probability + chop_probability) {
+        move_response(Moves::BLOCK);
     } else {
-        move = rand.randi_range(4, 6);
+        move_response(Moves::IDLE);
+    }
+}
+
+void Enemy::move_response(int m) {
+    double decision[7] = {0, 0, 0, 0, 0, 0, 0};
+    // m being the predicted next move of player
+    // modifiable probabilities
+    switch(m) {
+        case Moves::CHOP:
+            decision[Moves::CHOP] = 0.1;
+            decision[Moves::SLICE] = 0.1;
+            decision[Moves::STAB] = 0.2;
+            decision[Moves::DODGE] = 0.5;
+            decision[Moves::JUMP] = 0;
+            decision[Moves::BLOCK] = 0.1;
+            break;
+        case Moves::SLICE:
+            decision[Moves::CHOP] = 0.1;
+            decision[Moves::SLICE] = 0.1;
+            decision[Moves::STAB] = 0.2;
+            decision[Moves::DODGE] = 0;
+            decision[Moves::JUMP] = 0.5;
+            decision[Moves::BLOCK] = 0.1;            
+            break;
+        case Moves::STAB:
+            decision[Moves::CHOP] = 0;
+            decision[Moves::SLICE] = 0;
+            decision[Moves::STAB] = 0.1;
+            decision[Moves::DODGE] = 0.2;
+            decision[Moves::JUMP] = 0.2;
+            decision[Moves::BLOCK] = 0.5;
+            break;
+        case Moves::DODGE:
+            decision[Moves::CHOP] = 0;
+            decision[Moves::SLICE] = 0.6;
+            decision[Moves::STAB] = 0;
+            decision[Moves::DODGE] = 0.1;
+            decision[Moves::JUMP] = 0.1;
+            decision[Moves::BLOCK] = 0.2;
+            break;
+        case Moves::JUMP:
+            decision[Moves::CHOP] = 0.6;
+            decision[Moves::SLICE] = 0;
+            decision[Moves::STAB] = 0;
+            decision[Moves::DODGE] = 0.1;
+            decision[Moves::JUMP] = 0.1;
+            decision[Moves::BLOCK] = 0.2;
+            break;
+        case Moves::BLOCK:
+            decision[Moves::CHOP] = 0.3;
+            decision[Moves::SLICE] = 0.3;
+            decision[Moves::STAB] = 0;
+            decision[Moves::DODGE] = 0;
+            decision[Moves::JUMP] = 0;
+            decision[Moves::BLOCK] = 0.4;
+            break;
+        default:
+            // If player idle (supposedly after getting a stab blocked)
+            decision[Moves::CHOP] = 0.1;
+            decision[Moves::SLICE] = 0.1;
+            decision[Moves::STAB] = 0.8;
+            decision[Moves::DODGE] = 0;
+            decision[Moves::JUMP] = 0;
+            decision[Moves::BLOCK] = 0;
+            break;
     }
 
-    
+    // Aggression algorithm
+    // When less aggressive than default, take away from attacking and give to defending
+    // When more aggressive than default, take away from defending and give to attacking
+    double temp = aggressiveness - default_agg;
+    double aggression_factor = 1.0 - temp;
+    if (temp > 0) {
+        double p_total = decision[Moves::DODGE] + decision[Moves::JUMP] + decision[Moves::BLOCK];
+        double modifier = (aggression_factor * p_total) / 3.0;
+        for (int i = 1; i < 4; i++) {
+            decision[i] += modifier;
+        }
+        for (int i = 4; i < 7; i++) {
+            decision[i] -= modifier;
+        }
+    } else if (temp < 0) {
+        double a_total = decision[Moves::CHOP] + decision[Moves::SLICE] + decision[Moves::STAB];
+        double modifier = (aggression_factor * a_total) / 3.0;
+        for (int i = 1; i < 4; i++) {
+            decision[i] -= modifier;
+        }
+        for (int i = 4; i < 7; i++) {
+            decision[i] += modifier;
+        }
+    }
+
+    // Ensure that decisions add up to 1
+    UtilityFunctions::print("Decisions after Aggressiveness:");
+    UtilityFunctions::print((double)(decision[1] + decision[2] + decision[3] + decision[4] + decision[5] + decision[6]));
+
+    double choice = rand.randf_range(0, 1);
+    if (choice <= decision[1]) {
+        move = Moves::CHOP;
+    } else if (choice <= decision[1] + decision[2]) {
+        move = Moves::SLICE;
+    } else if (choice <= decision[1] + decision[2] + decision[3]) {
+        move = Moves::STAB;
+    } else if (choice <= decision[1] + decision[2] + decision[3] + decision[4]) {
+        move = Moves::DODGE;
+    } else if (choice <= decision[1] + decision[2] + decision[3] + decision[4] + decision[5]) {
+        move = Moves::JUMP;
+    } else if (choice <= decision[1] + decision[2] + decision[3] + decision[4] + decision[5] + decision[6]) {
+        move = Moves::BLOCK;
+    } else {
+        move = Moves::IDLE;
+    }
 }
 
 void Enemy::add_move_list(int m) {
     player_move_list[m] += 1;
     total_moves += 1;
-    switch(m) {
-        case Moves::CHOP:
-            chop_probability = player_move_list[m] / total_moves;
-            break;
-        case Moves::SLICE:
-            slice_probability = player_move_list[m] / total_moves;
-            break;
-        case Moves::STAB:
-            stab_probability = player_move_list[m] / total_moves;
-            break;
-        case Moves::DODGE:
-            dodge_probability = player_move_list[m] / total_moves;
-            break;
-        case Moves::JUMP:
-            jump_probability = player_move_list[m] / total_moves;
-            break;
-        case Moves::BLOCK:
-            jump_probability = player_move_list[m] / total_moves;
-            break;
-        default:
-            break;
-    }
+
+    chop_probability = (double)player_move_list[1] / (double)total_moves;
+    slice_probability = (double)player_move_list[2] / (double)total_moves;
+    stab_probability = (double)player_move_list[3] / (double)total_moves;
+    dodge_probability = (double)player_move_list[4] / (double)total_moves;
+    jump_probability = (double)player_move_list[5] / (double)total_moves;
     // for (int i = 0; i < 7; i++) {
     //     UtilityFunctions::print(player_move_list[i]);
     // }

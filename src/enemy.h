@@ -36,8 +36,9 @@ private:
     double health;
     RandomNumberGenerator rand;
 
-    // Fuzzy variables; scale of 0 to 1
+    // Fuzzy variables
     double aggressiveness;
+    double default_agg = 0.5;
 
 
 protected:
@@ -57,9 +58,11 @@ public:
     int get_move();
     void set_health(double p_health);
     double get_health();
+
     void pick_move();
-    void defuzzify();
-    void add_move_list(int move);
+    void predict();
+    void move_response(int m);
+    void add_move_list(int m);
 };
 
 }
