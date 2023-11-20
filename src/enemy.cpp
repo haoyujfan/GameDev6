@@ -48,13 +48,14 @@ Enemy::Enemy() {
     health = 50;
     move = Moves::IDLE;
     total_moves = 0;
-
-    aggressiveness = 0.5;
 }
 
 
 void Enemy::_ready() {
-    
+    // aggressiveness = rand.randf_range(0, 2);
+    aggressiveness = 0.0;
+    UtilityFunctions::print("Aggression:");
+    UtilityFunctions::print(aggressiveness);
 }
 
 void Enemy::_process(double delta) {
@@ -219,6 +220,17 @@ void Enemy::predict() {
     UtilityFunctions::print("Probabilities:");
     UtilityFunctions::print((double)(block_probability + jump_probability + dodge_probability + stab_probability + slice_probability + chop_probability)); 
 
+    /* 
+    I think predict() is currently a Mean of Max algorithm by deciding on the player's
+    next move. Could change to Center of Mass in the future by just taking an average
+    of responses to all of player's moves.
+    
+    Aggressiveness just factors into the final move decision, but probably isn't
+    considered fuzzy logic. If we implement movement, it could definitely be made
+    to do so. 
+    */
+
+    // Predict player's next move
     double prediction = rand.randf_range(0, 1);
     if (prediction <= chop_probability) {
         move_response(Moves::CHOP);
@@ -233,6 +245,7 @@ void Enemy::predict() {
     } else if (prediction <= block_probability + jump_probability + dodge_probability + stab_probability + slice_probability + chop_probability) {
         move_response(Moves::BLOCK);
     } else {
+        // May want to change default behavior
         move_response(Moves::IDLE);
     }
 }
@@ -240,7 +253,7 @@ void Enemy::predict() {
 void Enemy::move_response(int m) {
     double decision[7] = {0, 0, 0, 0, 0, 0, 0};
     // m being the predicted next move of player
-    // modifiable probabilities
+    // Populate probabilities of enemy's next move
     switch(m) {
         case Moves::CHOP:
             decision[Moves::CHOP] = 0.1;
@@ -283,12 +296,12 @@ void Enemy::move_response(int m) {
             decision[Moves::BLOCK] = 0.2;
             break;
         case Moves::BLOCK:
-            decision[Moves::CHOP] = 0.3;
-            decision[Moves::SLICE] = 0.3;
+            decision[Moves::CHOP] = 0.5;
+            decision[Moves::SLICE] = 0.5;
             decision[Moves::STAB] = 0;
             decision[Moves::DODGE] = 0;
             decision[Moves::JUMP] = 0;
-            decision[Moves::BLOCK] = 0.4;
+            decision[Moves::BLOCK] = 0;
             break;
         default:
             // If player idle (supposedly after getting a stab blocked)
@@ -305,7 +318,7 @@ void Enemy::move_response(int m) {
     // When less aggressive than default, take away from attacking and give to defending
     // When more aggressive than default, take away from defending and give to attacking
     double temp = aggressiveness - default_agg;
-    double aggression_factor = 1.0 - temp;
+    double aggression_factor = abs(temp);
     if (temp > 0) {
         double p_total = decision[Moves::DODGE] + decision[Moves::JUMP] + decision[Moves::BLOCK];
         double modifier = (aggression_factor * p_total) / 3.0;
@@ -313,13 +326,13 @@ void Enemy::move_response(int m) {
             decision[i] += modifier;
         }
         for (int i = 4; i < 7; i++) {
-            decision[i] -= modifier;
+            decision[i] -= decision[i] * aggression_factor;
         }
     } else if (temp < 0) {
         double a_total = decision[Moves::CHOP] + decision[Moves::SLICE] + decision[Moves::STAB];
         double modifier = (aggression_factor * a_total) / 3.0;
         for (int i = 1; i < 4; i++) {
-            decision[i] -= modifier;
+            decision[i] -= decision[i] * aggression_factor;
         }
         for (int i = 4; i < 7; i++) {
             decision[i] += modifier;
@@ -330,6 +343,7 @@ void Enemy::move_response(int m) {
     UtilityFunctions::print("Decisions after Aggressiveness:");
     UtilityFunctions::print((double)(decision[1] + decision[2] + decision[3] + decision[4] + decision[5] + decision[6]));
 
+    // Choose move based on random float
     double choice = rand.randf_range(0, 1);
     if (choice <= decision[1]) {
         move = Moves::CHOP;

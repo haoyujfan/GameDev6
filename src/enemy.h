@@ -37,8 +37,9 @@ private:
     RandomNumberGenerator rand;
 
     // Fuzzy variables
+    // Aggressiveness of 0.0 means no attacks; 2.0 means only attacks
     double aggressiveness;
-    double default_agg = 0.5;
+    double default_agg = 1.0;
 
 
 protected:
