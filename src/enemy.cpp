@@ -357,6 +357,7 @@ void Enemy::add_move_list(int m) {
     stab_probability = (double)player_move_list[3] / (double)total_moves;
     dodge_probability = (double)player_move_list[4] / (double)total_moves;
     jump_probability = (double)player_move_list[5] / (double)total_moves;
+    block_probability = (double)player_move_list[6] / (double)total_moves;
     // for (int i = 0; i < 7; i++) {
     //     UtilityFunctions::print(player_move_list[i]);
     // }
