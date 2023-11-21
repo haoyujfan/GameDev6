@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dk37sn5bppwnq"]
+[gd_scene load_steps=8 format=3 uid="uid://dk37sn5bppwnq"]
 
 [ext_resource type="PackedScene" uid="uid://dencd23fjtj2q" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/wall_shelves.gltf.glb" id="1_ntj7q"]
 [ext_resource type="PackedScene" uid="uid://bat1l057w8edx" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/wall_endcap.gltf.glb" id="2_3uq51"]
 [ext_resource type="PackedScene" uid="uid://cuv6foo45ufnw" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/wall_archedwindow_open.gltf.glb" id="3_mbf4k"]
 [ext_resource type="PackedScene" uid="uid://d3wq33he60rn7" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/wall.gltf.glb" id="4_swfsr"]
+[ext_resource type="PackedScene" uid="uid://bxe3s2suvieda" path="res://torch.tscn" id="5_luj6l"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_s6wq0"]
 size = Vector3(5, 40, 100)
@@ -66,3 +67,9 @@ shape = SubResource("BoxShape3D_02mn6")
 [node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -20, -40)
 shape = SubResource("BoxShape3D_02mn6")
+
+[node name="Torch" parent="." instance=ExtResource("5_luj6l")]
+transform = Transform3D(0.906308, 0.422618, 3.48787e-16, -0.422618, 0.906308, -3.48787e-16, -4.63512e-16, 1.68705e-16, 1, 3, -5, 27.5)
+
+[node name="Torch2" parent="." instance=ExtResource("5_luj6l")]
+transform = Transform3D(0.906308, 0.422618, 3.48787e-16, -0.422618, 0.906308, -3.48787e-16, -4.63512e-16, 1.68705e-16, 1, 3, -5, -27.5)
