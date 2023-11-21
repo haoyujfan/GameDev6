@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://du6ivbhhiubth"]
+[gd_scene load_steps=9 format=3 uid="uid://du6ivbhhiubth"]
 
 [ext_resource type="PackedScene" uid="uid://d3wq33he60rn7" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/wall.gltf.glb" id="1_ff7t2"]
 [ext_resource type="PackedScene" uid="uid://doby25t8kc7tj" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/wall_arched.gltf.glb" id="2_0cdqq"]
 [ext_resource type="PackedScene" uid="uid://rssujdhc7qg2" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/wall_cracked.gltf.glb" id="3_8awcr"]
 [ext_resource type="PackedScene" uid="uid://cq5l4jxs1i5jp" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/wall_broken.gltf.glb" id="4_qeynf"]
 [ext_resource type="PackedScene" uid="uid://b4ujnnq5rk7t7" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/wall_gated.gltf.glb" id="6_a34j6"]
+[ext_resource type="PackedScene" uid="uid://bxe3s2suvieda" path="res://torch.tscn" id="7_54rjo"]
 [ext_resource type="PackedScene" uid="uid://dxns8lykqvbff" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/wall_pillar.gltf.glb" id="7_j6vyj"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0uhxa"]
@@ -59,3 +60,9 @@ transform = Transform3D(-2.18557e-07, 1.74393e-15, 5, 1.74393e-15, 5, -1.74393e-
 
 [node name="wall_gated_gltf3" parent="." instance=ExtResource("6_a34j6")]
 transform = Transform3D(-2.18557e-07, 1.74393e-15, 5, 1.74393e-15, 5, -1.74393e-15, -5, 1.74393e-15, -2.18557e-07, 0, -10, -40)
+
+[node name="Torch" parent="." instance=ExtResource("7_54rjo")]
+transform = Transform3D(0.906308, 0.422618, 3.48787e-16, -0.422618, 0.906308, -3.48787e-16, -4.63512e-16, 1.68705e-16, 1, 4, 10, 20)
+
+[node name="Torch2" parent="." instance=ExtResource("7_54rjo")]
+transform = Transform3D(0.906308, 0.422618, 3.48787e-16, -0.422618, 0.906308, -3.48787e-16, -4.63512e-16, 1.68705e-16, 1, 4, 10, -20)

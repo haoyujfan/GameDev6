@@ -53,7 +53,7 @@ Enemy::Enemy() {
 
 void Enemy::_ready() {
     // aggressiveness = rand.randf_range(0, 2);
-    aggressiveness = 1.75;
+    aggressiveness = 0.6;
     UtilityFunctions::print("Aggression:");
     UtilityFunctions::print(aggressiveness);
 }

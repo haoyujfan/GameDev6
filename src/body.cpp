@@ -226,6 +226,11 @@ double Body::get_shield() {
 
 void Body::set_health(double p_health) {
     health = p_health;
+    // if (health <= 0) {
+    //     dying = true;
+    //     AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Knight/AnimationPlayer"));
+    //     animation->play("Death_B");
+    // }
 }
 
 double Body::get_health() {

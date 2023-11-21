@@ -21,6 +21,7 @@ private:
     bool is_running;
     bool is_fighting;
     bool got_blocked;
+    bool dying;
     Vector3 velocity;
     
 
