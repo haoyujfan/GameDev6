@@ -30,7 +30,7 @@
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 25, 2.08165e-12)
 
 [node name="EnemyBannerRow" type="Node3D" parent="Wall_Door"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, -25, -2.08165e-12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48.5, -25, 2.08165e-12)
 
 [node name="banner_thin_red_gltf" parent="Wall_Door/EnemyBannerRow" instance=ExtResource("7_tchag")]
 transform = Transform3D(-2.18557e-07, 1.74393e-15, 5, 1.74393e-15, 5, -1.74393e-15, -5, 1.74393e-15, -2.18557e-07, -47.5, 19, -10)
@@ -45,7 +45,7 @@ transform = Transform3D(-2.18557e-07, 1.74393e-15, 5, 1.74393e-15, 5, -1.74393e-
 transform = Transform3D(-1, 3.48787e-16, -8.74228e-08, 3.48787e-16, 1, -3.48787e-16, 8.74228e-08, -3.48787e-16, -1, 50, 25, 2.08165e-12)
 
 [node name="PlayerBannerRow" type="Node3D" parent="Wall_Door2"]
-transform = Transform3D(-1, 6.97574e-16, 8.74228e-08, 6.97574e-16, 1, -6.97574e-16, -8.74228e-08, -6.97574e-16, -1, 50, -25, 4.37114e-06)
+transform = Transform3D(-1, 6.97574e-16, 8.74228e-08, 6.97574e-16, 1, -6.97574e-16, -8.74228e-08, -6.97574e-16, -1, 45, -25, 2.08165e-12)
 
 [node name="banner_triple_blue_gltf" parent="Wall_Door2/PlayerBannerRow" instance=ExtResource("9_twuse")]
 transform = Transform3D(8.34742e-08, -2.44151e-15, -7, 2.44151e-15, 7, -2.44151e-15, 7, -2.44151e-15, 8.34742e-08, 45, 15, 2.08165e-12)
