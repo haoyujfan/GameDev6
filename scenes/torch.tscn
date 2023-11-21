@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxe3s2suvieda"]
+
+[ext_resource type="PackedScene" uid="uid://t57xws7wvxfu" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/torch_lit.gltf.glb" id="1_mbttk"]
+
+[node name="Torch" type="Node3D"]
+transform = Transform3D(0.906308, -0.422618, 3.48787e-16, 0.422618, 0.906308, -3.48787e-16, -1.68705e-16, 4.63512e-16, 1, 20, 10, 15)
+
+[node name="torch_lit_gltf" parent="." instance=ExtResource("1_mbttk")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2, 2.08165e-12)
+light_color = Color(1, 0.54902, 0, 1)
+light_size = 10.0
+omni_range = 40.0
