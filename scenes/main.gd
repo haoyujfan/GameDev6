@@ -104,6 +104,8 @@ func enemy_stab() :
 	var move = p.get_move()
 	# block
 	if move == 6 :
+		var e = get_tree().get_first_node_in_group("enemy1")
+		e.set_got_blocked(true);
 		return
 	else :
 		p.set_health(p.get_health() - 10)

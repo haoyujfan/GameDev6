@@ -33,6 +33,7 @@ private:
     bool is_fighting;
     bool dead;
     bool dying;
+    bool got_blocked;
     double health;
     RandomNumberGenerator rand;
 
@@ -59,6 +60,9 @@ public:
     int get_move();
     void set_health(double p_health);
     double get_health();
+
+    void set_got_blocked(bool p_got_blocked);
+    void on_got_blocked();
 
     void pick_move();
     void predict();

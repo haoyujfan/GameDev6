@@ -29,6 +29,7 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_move"), &Enemy::get_move);
     ClassDB::bind_method(D_METHOD("get_health"), &Enemy::get_health);
     ClassDB::bind_method(D_METHOD("set_health", "p_health"), &Enemy::set_health);
+    ClassDB::bind_method(D_METHOD("set_got_blocked", "p_got_blocked"), &Enemy::set_got_blocked);
     ClassDB::bind_method(D_METHOD("add_move_list", "m"), &Enemy::add_move_list);
     ADD_SIGNAL(MethodInfo("enemy_chop"));
     ADD_SIGNAL(MethodInfo("enemy_slice"));
@@ -48,6 +49,7 @@ Enemy::Enemy() {
     health = 100;
     move = Moves::IDLE;
     total_moves = 0;
+    got_blocked = false;
 }
 
 
@@ -99,6 +101,15 @@ void Enemy::_physics_process(double delta) {
     }
     set_velocity(velocity);
     move_and_slide();
+
+    if(got_blocked) {
+        UtilityFunctions::print("got blocked");
+        if(animation->get_current_animation() == "Cheer") {
+                return;
+        }
+        got_blocked = false;
+    }
+
     switch(move) {
         case Moves::IDLE:
             animation->play("Idle");
@@ -429,4 +440,14 @@ void Enemy::add_move_list(int m) {
     // for (int i = 0; i < 7; i++) {
     //     UtilityFunctions::print(player_move_list[i]);
     // }
+}
+
+void Enemy::on_got_blocked() {
+    AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Skin/AnimationPlayer"));
+    animation->play("Cheer");
+}
+
+void Enemy::set_got_blocked(bool p_got_blocked) {
+    got_blocked = p_got_blocked;
+    on_got_blocked();
 }
