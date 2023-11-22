@@ -52,8 +52,10 @@ Enemy::Enemy() {
 
 
 void Enemy::_ready() {
-    // aggressiveness = rand.randf_range(0, 2);
-    aggressiveness = 0.6;
+    rand.randomize();
+
+    aggressiveness = rand.randf_range(0.3, 1.7);
+    // aggressiveness = 0.6;
     UtilityFunctions::print("Aggression:");
     UtilityFunctions::print(aggressiveness);
 }
@@ -202,7 +204,7 @@ void Enemy::pick_move() {
             animation->play("1H_Melee_Attack_Stab");
             break;
         case Moves::DODGE:
-            animation->play("Dodge_Right");
+            animation->play("Dodge_Left");
             break;
         case Moves::JUMP:
             animation->play("Jump_Full_Short");
@@ -254,46 +256,58 @@ void Enemy::move_response(int m) {
     double decision[7] = {0, 0, 0, 0, 0, 0, 0};
     // m being the predicted next move of player
     // Populate probabilities of enemy's next move
+    int num_nonzero_a;
+    int num_nonzero_d;
     switch(m) {
         case Moves::CHOP:
-            decision[Moves::CHOP] = 0.1;
-            decision[Moves::SLICE] = 0.1;
-            decision[Moves::STAB] = 0.2;
+            decision[Moves::CHOP] = 0.05;
+            decision[Moves::SLICE] = 0.05;
+            decision[Moves::STAB] = 0.35;
             decision[Moves::DODGE] = 0.5;
             decision[Moves::JUMP] = 0;
-            decision[Moves::BLOCK] = 0.1;
+            decision[Moves::BLOCK] = 0.05;
+            num_nonzero_a = 3;
+            num_nonzero_d = 2;
             break;
         case Moves::SLICE:
-            decision[Moves::CHOP] = 0.1;
-            decision[Moves::SLICE] = 0.1;
-            decision[Moves::STAB] = 0.2;
+            decision[Moves::CHOP] = 0.05;
+            decision[Moves::SLICE] = 0.05;
+            decision[Moves::STAB] = 0.35;
             decision[Moves::DODGE] = 0;
             decision[Moves::JUMP] = 0.5;
-            decision[Moves::BLOCK] = 0.1;            
+            decision[Moves::BLOCK] = 0.05;
+            num_nonzero_a = 3;
+            num_nonzero_d = 2;         
             break;
         case Moves::STAB:
             decision[Moves::CHOP] = 0;
             decision[Moves::SLICE] = 0;
             decision[Moves::STAB] = 0.1;
-            decision[Moves::DODGE] = 0.2;
-            decision[Moves::JUMP] = 0.2;
-            decision[Moves::BLOCK] = 0.5;
+            decision[Moves::DODGE] = 0;
+            decision[Moves::JUMP] = 0;
+            decision[Moves::BLOCK] = 0.9;
+            num_nonzero_a = 1;
+            num_nonzero_d = 1;
             break;
         case Moves::DODGE:
             decision[Moves::CHOP] = 0;
-            decision[Moves::SLICE] = 0.6;
+            decision[Moves::SLICE] = 0.85;
             decision[Moves::STAB] = 0;
-            decision[Moves::DODGE] = 0.1;
-            decision[Moves::JUMP] = 0.1;
-            decision[Moves::BLOCK] = 0.2;
+            decision[Moves::DODGE] = 0;
+            decision[Moves::JUMP] = 0;
+            decision[Moves::BLOCK] = 0.15;
+            num_nonzero_a = 1;
+            num_nonzero_d = 1;
             break;
         case Moves::JUMP:
-            decision[Moves::CHOP] = 0.6;
+            decision[Moves::CHOP] = 0.85;
             decision[Moves::SLICE] = 0;
             decision[Moves::STAB] = 0;
-            decision[Moves::DODGE] = 0.1;
-            decision[Moves::JUMP] = 0.1;
-            decision[Moves::BLOCK] = 0.2;
+            decision[Moves::DODGE] = 0;
+            decision[Moves::JUMP] = 0;
+            decision[Moves::BLOCK] = 0.15;
+            num_nonzero_a = 1;
+            num_nonzero_d = 1;
             break;
         case Moves::BLOCK:
             decision[Moves::CHOP] = 0.5;
@@ -302,40 +316,66 @@ void Enemy::move_response(int m) {
             decision[Moves::DODGE] = 0;
             decision[Moves::JUMP] = 0;
             decision[Moves::BLOCK] = 0;
+            num_nonzero_a = 2;
+            num_nonzero_d = 0;
             break;
         default:
-            // If player idle (supposedly after getting a stab blocked)
+            // No moves registered
             decision[Moves::CHOP] = 0.1;
             decision[Moves::SLICE] = 0.1;
-            decision[Moves::STAB] = 0.8;
+            decision[Moves::STAB] = 0.1;
             decision[Moves::DODGE] = 0;
             decision[Moves::JUMP] = 0;
-            decision[Moves::BLOCK] = 0;
+            decision[Moves::BLOCK] = 0.7;
+            num_nonzero_a = 3;
+            num_nonzero_d = 1;
             break;
     }
 
-    // Aggression algorithm
-    // When less aggressive than default, take away from attacking and give to defending
-    // When more aggressive than default, take away from defending and give to attacking
+    // Aggression algorithm modifies probabilities inside of decision array
     double temp = aggressiveness - default_agg;
     double aggression_factor = abs(temp);
-    if (temp > 0) {
-        double p_total = decision[Moves::DODGE] + decision[Moves::JUMP] + decision[Moves::BLOCK];
-        double modifier = (aggression_factor * p_total) / 3.0;
+    if (temp > 0) { 
+        // If more aggressive than default: take from defending, give to attacking
+        double total_d = decision[Moves::DODGE] + decision[Moves::JUMP] + decision[Moves::BLOCK];
+        double modifier_a;
+        double modifier_d;
+        if (num_nonzero_a == 0 || num_nonzero_d == 0) {
+            modifier_a = 0.0;
+            modifier_d = 0.0;
+        } else {
+            modifier_a = (aggression_factor * total_d) / num_nonzero_a;
+            modifier_d = (aggression_factor * total_d) / num_nonzero_d;
+        }
+        
         for (int i = 1; i < 4; i++) {
-            decision[i] += modifier;
+            if (decision[i] > 0.0) {
+                decision[i] += modifier_a;
+            } 
         }
         for (int i = 4; i < 7; i++) {
-            decision[i] -= decision[i] * aggression_factor;
+            if (decision[i] > 0.0) {
+                decision[i] -= modifier_d;
+            }
         }
-    } else if (temp < 0) {
-        double a_total = decision[Moves::CHOP] + decision[Moves::SLICE] + decision[Moves::STAB];
-        double modifier = (aggression_factor * a_total) / 3.0;
+    } else if (temp < 0) { 
+        // If less aggressive than default: take from attacking, give to defending
+        double total_a = decision[Moves::CHOP] + decision[Moves::SLICE] + decision[Moves::STAB];
+        double modifier_a;
+        double modifier_d;
+        if (num_nonzero_a == 0 || num_nonzero_d == 0) {
+            modifier_a = 0.0;
+            modifier_d = 0.0;
+        } else {
+            modifier_a = (aggression_factor * total_a) / num_nonzero_a;
+            modifier_d = (aggression_factor * total_a) / num_nonzero_d;
+        }
+        
         for (int i = 1; i < 4; i++) {
-            decision[i] -= decision[i] * aggression_factor;
+            decision[i] -= modifier_a;
         }
         for (int i = 4; i < 7; i++) {
-            decision[i] += modifier;
+            decision[i] += modifier_d;
         }
     }
 
