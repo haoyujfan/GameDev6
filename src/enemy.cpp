@@ -45,7 +45,7 @@ Enemy::Enemy() {
     is_fighting = false;
     dying = false;
     dead = false;
-    health = 50;
+    health = 100;
     move = Moves::IDLE;
     total_moves = 0;
 }
