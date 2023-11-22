@@ -124,6 +124,9 @@ func _on_body_blocking(shield):
 	
 func update_health(health):
 	get_node("GUI/GridContainer/HBoxContainer/Health").set_value(health)
+	if(health <= 0):
+		var p = get_tree().get_first_node_in_group("player")
+		p.set_dead();
 	pass
 
 func _on_player_chop():
@@ -183,4 +186,9 @@ func _on_player_jump():
 func _on_player_block():
 	var e = get_tree().get_first_node_in_group("enemy1")
 	e.add_move_list(6)
+	pass # Replace with function body.
+
+
+func _on_body_player_death():
+	get_tree().change_scene_to_file("res://game_over.tscn")
 	pass # Replace with function body.

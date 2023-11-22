@@ -1,0 +1,138 @@
+[gd_scene load_steps=7 format=3 uid="uid://cg1gsq2p1yh64"]
+
+[ext_resource type="Script" path="res://start_menu.gd" id="1_h38xx"]
+[ext_resource type="FontFile" uid="uid://ddwlhv6utpbsb" path="res://font/Canterbury.ttf" id="1_w8sxs"]
+[ext_resource type="PackedScene" uid="uid://bgxx8rs16d6hi" path="res://env_main_arena.tscn" id="2_0rqml"]
+
+[sub_resource type="Animation" id="Animation_v06xd"]
+resource_name = "CameraAnimation"
+length = 12.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Spatial/SubViewportContainer/SubViewport/Camera3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3, 6, 9, 12),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(2.08165e-12, 50, -20), Vector3(-20, 50, 2.08165e-12), Vector3(2.08165e-12, 50, 20), Vector3(20, 50, 2.08165e-12), Vector3(2.08165e-12, 50, -20)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Spatial/SubViewportContainer/SubViewport/Camera3D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 3, 6, 9, 12),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.698132, -3.14159, 3.48787e-16), Vector3(-0.698132, -1.5708, 3.48787e-16), Vector3(-0.698132, 3.48787e-16, 3.48787e-16), Vector3(-0.698132, 1.5708, 3.48787e-16), Vector3(-0.698132, 3.14159, 3.48787e-16)]
+}
+
+[sub_resource type="Animation" id="Animation_otncs"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Spatial/SubViewportContainer/SubViewport/Camera3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(2.08165e-12, 50, -20)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Spatial/SubViewportContainer/SubViewport/Camera3D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.698132, -3.14159, 3.48787e-16)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wwdu4"]
+_data = {
+"CameraAnimation": SubResource("Animation_v06xd"),
+"RESET": SubResource("Animation_otncs")
+}
+
+[node name="StartMenu" type="CanvasLayer"]
+script = ExtResource("1_h38xx")
+
+[node name="Spatial" type="Node3D" parent="."]
+
+[node name="Env_Main_Arena" parent="Spatial" instance=ExtResource("2_0rqml")]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Spatial"]
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="SubViewport" type="SubViewport" parent="Spatial/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="Spatial/SubViewportContainer/SubViewport"]
+transform = Transform3D(-1, 1.62958e-06, -1.94206e-06, 2.67186e-16, 0.766044, 0.642788, 2.53518e-06, 0.642788, -0.766044, 2.08165e-12, 50, -20)
+
+[node name="Menu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 80
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_w8sxs")
+theme_override_font_sizes/font_size = 80
+text = "Game Title"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(2.08165e-12, 50)
+layout_mode = 2
+
+[node name="Start Button" type="Button" parent="Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 50
+text = "Start"
+flat = true
+
+[node name="QuitButton" type="Button" parent="Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 50
+text = "Quit"
+flat = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_wwdu4")
+}
+
+[connection signal="button_down" from="Menu/MarginContainer/VBoxContainer/Start Button" to="." method="_on_start_button_button_down"]
+[connection signal="button_down" from="Menu/MarginContainer/VBoxContainer/QuitButton" to="." method="_on_exit_button_button_down"]

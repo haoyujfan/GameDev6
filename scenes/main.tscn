@@ -25,6 +25,7 @@ transform = Transform3D(-0.010943, 0, 0.99994, 0, 1, 0, -0.99994, 0, -0.010943, 
 [connection signal="blocking" from="Body" to="." method="_on_body_blocking"]
 [connection signal="player_block" from="Body" to="." method="_on_player_block"]
 [connection signal="player_chop" from="Body" to="." method="_on_player_chop"]
+[connection signal="player_death" from="Body" to="." method="_on_body_player_death"]
 [connection signal="player_dodge" from="Body" to="." method="_on_player_dodge"]
 [connection signal="player_jump" from="Body" to="." method="_on_player_jump"]
 [connection signal="player_slice" from="Body" to="." method="_on_player_slice"]

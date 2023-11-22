@@ -22,6 +22,7 @@ private:
     bool is_fighting;
     bool got_blocked;
     bool dying;
+    bool dead;
     Vector3 velocity;
     
 
@@ -44,6 +45,7 @@ public:
     double get_health();
     void set_got_blocked(bool p_got_blocked);
     void on_got_blocked();
+    void set_dead();
     int get_move();
     void _ready() override;
     void _process(double delta) override;

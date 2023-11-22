@@ -30,12 +30,14 @@ void Body::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_health", "p_health"), &Body::set_health);
     ClassDB::bind_method(D_METHOD("get_move"), &Body::get_move);
     ClassDB::bind_method(D_METHOD("set_got_blocked", "p_got_blocked"), &Body::set_got_blocked);
+    ClassDB::bind_method(D_METHOD("set_dead"), &Body::set_dead);
     ADD_SIGNAL(MethodInfo("player_chop"));
     ADD_SIGNAL(MethodInfo("player_slice"));
     ADD_SIGNAL(MethodInfo("player_stab"));
     ADD_SIGNAL(MethodInfo("player_dodge"));
     ADD_SIGNAL(MethodInfo("player_jump"));
     ADD_SIGNAL(MethodInfo("player_block"));
+    ADD_SIGNAL(MethodInfo("player_death"));
     ADD_SIGNAL(MethodInfo("blocking",PropertyInfo(Variant::FLOAT,"shield")));
 }
 
@@ -48,6 +50,8 @@ Body::Body() {
     velocity = Vector3(0, 0, 0);
     is_running = true;
     got_blocked = false;
+    dying = false;
+    dead = false;
 }
 
 void Body::_ready() {
@@ -89,6 +93,19 @@ void Body::_process(double delta) {
         return;
     }
     AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Knight/AnimationPlayer"));
+    if(dying) {
+        if(animation->get_current_animation() == "Death_A") {
+                return;
+        }
+        dying = false;
+        dead = true;
+        return;
+    }
+    if(dead) {
+        animation->play("Death_A_Pose");
+        emit_signal("player_death");
+        return;
+    }
     if(is_running) {
         set_velocity(Vector3(-30,0,0));
         move_and_slide();
@@ -249,4 +266,8 @@ void Body::on_got_blocked() {
 void Body::set_got_blocked(bool p_got_blocked) {
     got_blocked = p_got_blocked;
     on_got_blocked();
+}
+
+void Body::set_dead() {
+    dying = true;
 }
