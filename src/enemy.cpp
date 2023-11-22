@@ -218,21 +218,22 @@ void Enemy::pick_move() {
     }
 }
 
+/* 
+I think predict() is currently a Mean of Max algorithm by deciding on the player's
+next move. Could change to Center of Mass in the future by just taking an average
+of responses to all of player's moves.
+
+Aggressiveness just factors into the final move decision, but probably isn't
+considered fuzzy logic. If we implement movement, it could definitely be made
+to do so. 
+*/
 void Enemy::predict() {
     UtilityFunctions::print("Probabilities:");
     UtilityFunctions::print((double)(block_probability + jump_probability + dodge_probability + stab_probability + slice_probability + chop_probability)); 
 
-    /* 
-    I think predict() is currently a Mean of Max algorithm by deciding on the player's
-    next move. Could change to Center of Mass in the future by just taking an average
-    of responses to all of player's moves.
-    
-    Aggressiveness just factors into the final move decision, but probably isn't
-    considered fuzzy logic. If we implement movement, it could definitely be made
-    to do so. 
-    */
-
     // Predict player's next move
+    // Weighted range of a move determined by the number of times a move has been done
+    // The range where the float lands determines the predicted next move
     double prediction = rand.randf_range(0, 1);
     if (prediction <= chop_probability) {
         move_response(Moves::CHOP);
@@ -248,10 +249,16 @@ void Enemy::predict() {
         move_response(Moves::BLOCK);
     } else {
         // May want to change default behavior
-        move_response(Moves::IDLE);
+        move_response(-1);
     }
 }
 
+/* 
+Take in player's predicted next move.
+Set up an array to handle response to the predicted move.
+Modify values in array using aggressiveness variable.
+Choose random action using weighted probabilities inside of decision array.
+*/
 void Enemy::move_response(int m) {
     double decision[7] = {0, 0, 0, 0, 0, 0, 0};
     // m being the predicted next move of player
@@ -320,7 +327,7 @@ void Enemy::move_response(int m) {
             num_nonzero_d = 0;
             break;
         default:
-            // No moves registered
+            // No moves registered; default behavior
             decision[Moves::CHOP] = 0.1;
             decision[Moves::SLICE] = 0.1;
             decision[Moves::STAB] = 0.1;
@@ -332,7 +339,13 @@ void Enemy::move_response(int m) {
             break;
     }
 
-    // Aggression algorithm modifies probabilities inside of decision array
+    /* 
+    Aggression algorithm modifies probabilities inside of decision array.
+    Should change probabilities only for actions with non-zero probabilites
+    in order to ensure that actions which should never be done in response
+    to a player move are indeed never done. Makes spamming one move more
+    more punishing for the player.
+    */
     double temp = aggressiveness - default_agg;
     double aggression_factor = abs(temp);
     if (temp > 0) { 
@@ -370,7 +383,7 @@ void Enemy::move_response(int m) {
             modifier_a = (aggression_factor * total_a) / num_nonzero_a;
             modifier_d = (aggression_factor * total_a) / num_nonzero_d;
         }
-        
+
         for (int i = 1; i < 4; i++) {
             decision[i] -= modifier_a;
         }
@@ -384,6 +397,7 @@ void Enemy::move_response(int m) {
     UtilityFunctions::print((double)(decision[1] + decision[2] + decision[3] + decision[4] + decision[5] + decision[6]));
 
     // Choose move based on random float
+    // The range where the float lands determines the move
     double choice = rand.randf_range(0, 1);
     if (choice <= decision[1]) {
         move = Moves::CHOP;
