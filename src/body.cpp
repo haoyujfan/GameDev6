@@ -61,7 +61,6 @@ void Body::_ready() {
 void Body::check_input() {
     AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Knight/AnimationPlayer"));
     if(input->is_action_just_pressed("chop")) {
-        UtilityFunctions::print("chopping");
         move = Moves::CHOP;
         animation->play("1H_Melee_Attack_Chop");
         damage_done = false;
@@ -145,10 +144,8 @@ void Body::_process(double delta) {
                 if (!damage_done) {
                     emit_signal("player_chop");
                     damage_done = true;
-                    return;
-                } else {
-                    return;
-                }   
+                }
+                return;  
             }
             move = Moves::IDLE;
             // code block
@@ -158,10 +155,8 @@ void Body::_process(double delta) {
                 if (!damage_done) {
                     emit_signal("player_slice");
                     damage_done = true;
-                    return;
-                } else {
-                    return;
-                }   
+                }
+                return;
             } 
             // code block
             move = Moves::IDLE;
@@ -171,10 +166,8 @@ void Body::_process(double delta) {
                 if (!damage_done) {
                     emit_signal("player_stab");
                     damage_done = true;
-                    return;
-                } else {
-                    return;
-                }   
+                }
+                return;
             }
             // code block
             move = Moves::IDLE;
