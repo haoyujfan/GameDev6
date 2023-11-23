@@ -24,6 +24,7 @@ private:
     bool dying;
     bool dead;
     Vector3 velocity;
+    bool damage_done;
     
 
 

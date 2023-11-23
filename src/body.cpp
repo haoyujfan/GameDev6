@@ -52,6 +52,7 @@ Body::Body() {
     got_blocked = false;
     dying = false;
     dead = false;
+    damage_done = true;
 }
 
 void Body::_ready() {
@@ -63,12 +64,15 @@ void Body::check_input() {
         UtilityFunctions::print("chopping");
         move = Moves::CHOP;
         animation->play("1H_Melee_Attack_Chop");
+        damage_done = false;
     } else if(input->is_action_just_pressed("slice")) {
         move = Moves::SLICE;
         animation->play("1H_Melee_Attack_Slice_Horizontal");
+        damage_done = false;
     } else if(input->is_action_just_pressed("stab")) {
         move = Moves::STAB;
         animation->play("1H_Melee_Attack_Stab");
+        damage_done = false;
     } else if(input->is_action_just_pressed("dodge")) {
         move = Moves::DODGE;
         animation->play("Dodge_Right");
@@ -138,25 +142,40 @@ void Body::_process(double delta) {
             break;
         case Moves::CHOP:
             if(animation->get_current_animation() == "1H_Melee_Attack_Chop") {
-                return;
+                if (!damage_done) {
+                    emit_signal("player_chop");
+                    damage_done = true;
+                    return;
+                } else {
+                    return;
+                }   
             }
-            emit_signal("player_chop");
             move = Moves::IDLE;
             // code block
             break;
         case Moves::SLICE:
             if(animation->get_current_animation() == "1H_Melee_Attack_Slice_Horizontal") {
-                return;
-            }
-            emit_signal("player_slice");
+                if (!damage_done) {
+                    emit_signal("player_slice");
+                    damage_done = true;
+                    return;
+                } else {
+                    return;
+                }   
+            } 
             // code block
             move = Moves::IDLE;
             break;
         case Moves::STAB:
             if(animation->get_current_animation() == "1H_Melee_Attack_Stab") {
-                return;
+                if (!damage_done) {
+                    emit_signal("player_stab");
+                    damage_done = true;
+                    return;
+                } else {
+                    return;
+                }   
             }
-            emit_signal("player_stab");
             // code block
             move = Moves::IDLE;
             break;
