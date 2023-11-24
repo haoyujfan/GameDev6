@@ -140,7 +140,7 @@ void Enemy::_physics_process(double delta) {
             break;
         case Moves::STAB:
             if(animation->get_current_animation() == "1H_Melee_Attack_Stab") {
-                if (!damage_done && animation->get_current_animation_position() > animation->get_current_animation_length() / 2) {
+                if (!damage_done && animation->get_current_animation_position() > animation->get_current_animation_length() / 3) {
                     emit_signal("enemy_stab");
                     damage_done = true;
                 }
