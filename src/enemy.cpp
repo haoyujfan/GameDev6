@@ -50,6 +50,7 @@ Enemy::Enemy() {
     move = Moves::IDLE;
     total_moves = 0;
     got_blocked = false;
+    damage_done = true;
 }
 
 
@@ -119,23 +120,32 @@ void Enemy::_physics_process(double delta) {
             break;
         case Moves::CHOP:
             if(animation->get_current_animation() == "1H_Melee_Attack_Chop") {
-                return;
+                if (!damage_done && animation->get_current_animation_position() > animation->get_current_animation_length() / 2) {
+                    emit_signal("enemy_chop");
+                    damage_done = true;
+                }
+                return;  
             }
-            emit_signal("enemy_chop");
             move = Moves::IDLE;
             break;
         case Moves::SLICE:
-            if(animation->get_current_animation() == "1H_Melee_Attack_Slice_Horizontal") {
-                return;
+            if(animation->get_current_animation() == "1H_Melee_Attack_Chop") {
+                if (!damage_done && animation->get_current_animation_position() > animation->get_current_animation_length() / 2) {
+                    emit_signal("enemy_slice");
+                    damage_done = true;
+                }
+                return;  
             }
-            emit_signal("enemy_slice");
             move = Moves::IDLE;
             break;
         case Moves::STAB:
-            if(animation->get_current_animation() == "1H_Melee_Attack_Stab") {
-                return;
+            if(animation->get_current_animation() == "1H_Melee_Attack_Chop") {
+                if (!damage_done && animation->get_current_animation_position() > animation->get_current_animation_length() / 2) {
+                    emit_signal("enemy_stab");
+                    damage_done = true;
+                }
+                return;  
             }
-            emit_signal("enemy_stab");
             move = Moves::IDLE;
             break;
         case Moves::DODGE:
@@ -207,12 +217,15 @@ void Enemy::pick_move() {
     switch(move) {
         case Moves::CHOP:
             animation->play("1H_Melee_Attack_Chop");
+            damage_done = false;
             break;
         case Moves::SLICE:
             animation->play("1H_Melee_Attack_Slice_Horizontal");
+            damage_done = false;
             break;
         case Moves::STAB:
             animation->play("1H_Melee_Attack_Stab");
+            damage_done = false;
             break;
         case Moves::DODGE:
             animation->play("Dodge_Left");

@@ -36,6 +36,7 @@ private:
     bool got_blocked;
     double health;
     RandomNumberGenerator rand;
+    bool damage_done;
 
     // Fuzzy variables
     // Aggressiveness of 0.0 means no attacks; 2.0 means only attacks
