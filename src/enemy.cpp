@@ -129,7 +129,7 @@ void Enemy::_physics_process(double delta) {
             move = Moves::IDLE;
             break;
         case Moves::SLICE:
-            if(animation->get_current_animation() == "1H_Melee_Attack_Chop") {
+            if(animation->get_current_animation() == "1H_Melee_Attack_Slice_Horizontal") {
                 if (!damage_done && animation->get_current_animation_position() > animation->get_current_animation_length() / 2) {
                     emit_signal("enemy_slice");
                     damage_done = true;
@@ -139,7 +139,7 @@ void Enemy::_physics_process(double delta) {
             move = Moves::IDLE;
             break;
         case Moves::STAB:
-            if(animation->get_current_animation() == "1H_Melee_Attack_Chop") {
+            if(animation->get_current_animation() == "1H_Melee_Attack_Stab") {
                 if (!damage_done && animation->get_current_animation_position() > animation->get_current_animation_length() / 2) {
                     emit_signal("enemy_stab");
                     damage_done = true;
