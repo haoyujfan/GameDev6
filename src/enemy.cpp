@@ -46,7 +46,7 @@ Enemy::Enemy() {
     is_fighting = false;
     dying = false;
     dead = false;
-    health = 100;
+    health = 40;
     move = Moves::IDLE;
     total_moves = 0;
     got_blocked = false;

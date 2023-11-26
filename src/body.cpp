@@ -255,6 +255,9 @@ double Body::get_shield() {
 
 void Body::set_health(double p_health) {
     health = p_health;
+    if(health > 100) {
+        health = 100;
+    }
     // if (health <= 0) {
     //     dying = true;
     //     AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Knight/AnimationPlayer"));

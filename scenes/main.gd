@@ -116,6 +116,8 @@ func enemy_death() :
 	var p = get_tree().get_first_node_in_group("player")
 	p.set_running(true);
 	p.set_fighting(false);
+	p.set_health(p.get_health() + 40);
+	update_health(p.get_health())
 	kills += 1
 	get_node("GUI/GridContainer/ScoreBox/ScoreLabel").set_text(str(kills))
 	
