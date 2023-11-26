@@ -35,6 +35,7 @@ private:
     bool dying;
     bool got_blocked;
     double health;
+    double difficulty = 0.5;
     RandomNumberGenerator rand;
     bool damage_done;
 
@@ -64,6 +65,8 @@ public:
 
     void set_got_blocked(bool p_got_blocked);
     void on_got_blocked();
+
+    void set_difficulty(double p_difficulty);
 
     void pick_move();
     void predict();

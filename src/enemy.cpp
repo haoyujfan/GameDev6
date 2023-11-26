@@ -30,6 +30,7 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_health"), &Enemy::get_health);
     ClassDB::bind_method(D_METHOD("set_health", "p_health"), &Enemy::set_health);
     ClassDB::bind_method(D_METHOD("set_got_blocked", "p_got_blocked"), &Enemy::set_got_blocked);
+    ClassDB::bind_method(D_METHOD("set_difficulty", "p_difficulty"), &Enemy::set_difficulty);
     ClassDB::bind_method(D_METHOD("add_move_list", "m"), &Enemy::add_move_list);
     ADD_SIGNAL(MethodInfo("enemy_chop"));
     ADD_SIGNAL(MethodInfo("enemy_slice"));
@@ -216,15 +217,15 @@ void Enemy::pick_move() {
     AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Skin/AnimationPlayer"));
     switch(move) {
         case Moves::CHOP:
-            animation->play("1H_Melee_Attack_Chop");
+            animation->play("1H_Melee_Attack_Chop",-1,difficulty,false);
             damage_done = false;
             break;
         case Moves::SLICE:
-            animation->play("1H_Melee_Attack_Slice_Horizontal");
+            animation->play("1H_Melee_Attack_Slice_Horizontal",-1,difficulty,false);
             damage_done = false;
             break;
         case Moves::STAB:
-            animation->play("1H_Melee_Attack_Stab");
+            animation->play("1H_Melee_Attack_Stab",-1,difficulty,false);
             damage_done = false;
             break;
         case Moves::DODGE:
@@ -463,4 +464,8 @@ void Enemy::on_got_blocked() {
 void Enemy::set_got_blocked(bool p_got_blocked) {
     got_blocked = p_got_blocked;
     on_got_blocked();
+}
+
+void Enemy::set_difficulty(double p_difficulty) {
+    difficulty = p_difficulty;
 }

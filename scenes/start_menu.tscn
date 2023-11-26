@@ -109,7 +109,7 @@ layout_mode = 2
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_w8sxs")
 theme_override_font_sizes/font_size = 80
-text = "Game Title"
+text = "Medieval Madness"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Menu/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(2.08165e-12, 50)

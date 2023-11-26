@@ -63,6 +63,8 @@ func _process(_delta):
 		e2.connect("enemy_slice", enemy_slice);
 		e2.connect("enemy_stab", enemy_stab);
 		e2.connect("enemy_death", enemy_death);
+		var difficulty = 0.5 + (kills % 5)/10;
+		e2.set_difficulty(difficulty);
 		$Arena.add_child(arena,true)
 		a.queue_free();
 		
@@ -117,7 +119,7 @@ func enemy_death() :
 	p.set_running(true);
 	p.set_fighting(false);
 	p.set_health(p.get_health() + 40);
-	update_health(p.get_health())
+	update_health(p.get_health());
 	kills += 1
 	get_node("GUI/GridContainer/ScoreBox/ScoreLabel").set_text(str(kills))
 	
