@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://dchn8rods8ou6"]
+
+[ext_resource type="PackedScene" uid="uid://rssujdhc7qg2" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/wall_cracked.gltf.glb" id="1_j62m3"]
+[ext_resource type="Script" path="res://prison_scene.gd" id="1_xhi4t"]
+[ext_resource type="PackedScene" uid="uid://b4ujnnq5rk7t7" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/wall_gated.gltf.glb" id="2_2esl8"]
+[ext_resource type="PackedScene" uid="uid://cb5ghhdnsy5eh" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/floor_tile_large_rocks.gltf.glb" id="3_s8k7i"]
+[ext_resource type="PackedScene" uid="uid://cguhqc0eejj8u" path="res://KayKit_Adventurers_1.0_FREE/Characters/gltf/Knight.glb" id="5_wsyoo"]
+
+[node name="Prison" type="StaticBody3D"]
+script = ExtResource("1_xhi4t")
+
+[node name="wall_cracked_gltf" parent="." instance=ExtResource("1_j62m3")]
+transform = Transform3D(-3.0598e-07, 2.44151e-15, 7, 2.44151e-15, 7, -2.44151e-15, -7, 2.44151e-15, -3.0598e-07, -15.137, 1.11867e-14, -16.9362)
+
+[node name="wall_gated_gltf" parent="." instance=ExtResource("2_2esl8")]
+transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, 0)
+
+[node name="wall_cracked_gltf2" parent="." instance=ExtResource("1_j62m3")]
+transform = Transform3D(-7, 4.88302e-15, -1.05697e-06, 4.88302e-15, 7, 7.81557e-23, 1.05697e-06, -6.59159e-22, -7, -4.91168e-06, 2.08165e-12, -32.5286)
+
+[node name="wall_cracked_gltf3" parent="." instance=ExtResource("1_j62m3")]
+transform = Transform3D(-3.0598e-07, 2.44151e-15, 7, 2.44151e-15, 7, -2.44151e-15, -7, 2.44151e-15, -3.0598e-07, 10.7704, 1.83783e-15, -16.0396)
+
+[node name="floor_tile_large_rocks_gltf" parent="." instance=ExtResource("3_s8k7i")]
+transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, -17.1347)
+
+[node name="Knight" parent="." instance=ExtResource("5_wsyoo")]
+transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, -18.0747)
+
+[node name="Prison" type="Node3D" parent="."]

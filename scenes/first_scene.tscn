@@ -1,0 +1,82 @@
+[gd_scene load_steps=7 format=3 uid="uid://bhu0iulwxip3c"]
+
+[ext_resource type="PackedScene" uid="uid://dchn8rods8ou6" path="res://prison_scene.tscn" id="1_a4u7s"]
+[ext_resource type="Script" path="res://first_scene.gd" id="1_hnha8"]
+[ext_resource type="PackedScene" uid="uid://bgxx8rs16d6hi" path="res://env_main_arena.tscn" id="2_kdstp"]
+
+[sub_resource type="Animation" id="Animation_i5lsd"]
+resource_name = "start_scene"
+length = 20.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 6, 7.9, 12, 14, 19),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 14.4029, -9.94109), Vector3(0, 14.4029, -9.94109), Vector3(0, 14.4029, -9.94109), Vector3(0, 15.7014, 7.9584), Vector3(0, 15.7014, 7.9584), Vector3(0, 15.7014, 7.9584), Vector3(6.13475e-07, 8.44993, 12.0213)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera3D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 6, 7.9, 12, 14, 19),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.0724137, 0, 0), Vector3(-0.0724137, 0, 0), Vector3(-0.0724137, 0, 0), Vector3(-0.0724137, 0, 0), Vector3(-0.0724137, 0, 0), Vector3(-0.332712, -3.14159, 3.86564e-16), Vector3(-0.262567, -3.14159, 4.21987e-16)]
+}
+
+[sub_resource type="Animation" id="Animation_05q4c"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 14.4029, -9.94109)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera3D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.0724137, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eok6v"]
+_data = {
+"RESET": SubResource("Animation_05q4c"),
+"start_scene": SubResource("Animation_i5lsd")
+}
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_hnha8")
+
+[node name="Prison" parent="." instance=ExtResource("1_a4u7s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.7194)
+
+[node name="Env_Main_Arena" parent="." instance=ExtResource("2_kdstp")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.997379, 0.0723504, 0, -0.0723504, 0.997379, 0, 14.4029, -9.94109)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_eok6v")
+}
