@@ -241,14 +241,29 @@ void Enemy::pick_move() {
     AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Skin/AnimationPlayer"));
     switch(move) {
         case Moves::CHOP:
+            flash = Object::cast_to<ColorRect>(get_node_or_null("../../../ColorRect"));
+            if (flash) {
+                flash->set_visible(true);
+                flash->set_visible(false);
+            }
             animation->play("1H_Melee_Attack_Chop",-1,difficulty,false);
             damage_done = false;
             break;
         case Moves::SLICE:
+            flash = Object::cast_to<ColorRect>(get_node_or_null("../../../ColorRect"));
+            if (flash) {
+                flash->set_visible(true);
+                flash->set_visible(false);
+            }
             animation->play("1H_Melee_Attack_Slice_Horizontal",-1,difficulty,false);
             damage_done = false;
             break;
         case Moves::STAB:
+            flash = Object::cast_to<ColorRect>(get_node_or_null("../../../ColorRect"));
+            if (flash) {
+                flash->set_visible(true);
+                flash->set_visible(false);
+            }
             animation->play("1H_Melee_Attack_Stab",-1,difficulty,false);
             damage_done = false;
             break;

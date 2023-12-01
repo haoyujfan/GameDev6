@@ -6,6 +6,7 @@
 #include <godot_cpp/classes/input.hpp>
 #include <godot_cpp/classes/ray_cast3d.hpp>
 #include <godot_cpp/classes/random_number_generator.hpp>
+#include <godot_cpp/classes/color_rect.hpp>
 
 namespace godot {
 class PlayerCamera;
@@ -39,6 +40,8 @@ private:
     RandomNumberGenerator rand;
     bool damage_done;
     int timer;
+
+    ColorRect* flash;
 
     // Fuzzy variables
     // Aggressiveness of 0.0 means no attacks; 2.0 means only attacks
