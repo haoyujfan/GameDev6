@@ -132,6 +132,7 @@ void Enemy::_physics_process(double delta) {
     }
 
     switch(move) {
+        timer += 1;
         case Moves::IDLE:
             animation->play("Idle");
             // about 2 second delay
@@ -141,9 +142,14 @@ void Enemy::_physics_process(double delta) {
                 }
                 timer = 0;
             }
-            timer += 1;
             break;
         case Moves::CHOP:
+            if (timer % 50 == 0) {
+                flash = Object::cast_to<ColorRect>(get_node_or_null("../../../ColorRect"));
+                if (flash) {
+                    flash->set_visible(false);
+                }
+            }
             if(animation->get_current_animation() == "1H_Melee_Attack_Chop") {
                 if (!damage_done && animation->get_current_animation_position() > animation->get_current_animation_length() / 2) {
                     emit_signal("enemy_chop");
@@ -154,6 +160,12 @@ void Enemy::_physics_process(double delta) {
             move = Moves::IDLE;
             break;
         case Moves::SLICE:
+            if (timer % 50 == 0) {
+                flash = Object::cast_to<ColorRect>(get_node_or_null("../../../ColorRect"));
+                if (flash) {
+                    flash->set_visible(false);
+                }
+            }
             if(animation->get_current_animation() == "1H_Melee_Attack_Slice_Horizontal") {
                 if (!damage_done && animation->get_current_animation_position() > animation->get_current_animation_length() / 2) {
                     emit_signal("enemy_slice");
@@ -164,6 +176,12 @@ void Enemy::_physics_process(double delta) {
             move = Moves::IDLE;
             break;
         case Moves::STAB:
+            if (timer % 50 == 0) {
+                flash = Object::cast_to<ColorRect>(get_node_or_null("../../../ColorRect"));
+                if (flash) {
+                    flash->set_visible(false);
+                }
+            }
             if(animation->get_current_animation() == "1H_Melee_Attack_Stab") {
                 if (!damage_done && animation->get_current_animation_position() > animation->get_current_animation_length() / 3) {
                     emit_signal("enemy_stab");
@@ -244,7 +262,6 @@ void Enemy::pick_move() {
             flash = Object::cast_to<ColorRect>(get_node_or_null("../../../ColorRect"));
             if (flash) {
                 flash->set_visible(true);
-                flash->set_visible(false);
             }
             animation->play("1H_Melee_Attack_Chop",-1,difficulty,false);
             damage_done = false;
@@ -253,7 +270,6 @@ void Enemy::pick_move() {
             flash = Object::cast_to<ColorRect>(get_node_or_null("../../../ColorRect"));
             if (flash) {
                 flash->set_visible(true);
-                flash->set_visible(false);
             }
             animation->play("1H_Melee_Attack_Slice_Horizontal",-1,difficulty,false);
             damage_done = false;
@@ -262,7 +278,6 @@ void Enemy::pick_move() {
             flash = Object::cast_to<ColorRect>(get_node_or_null("../../../ColorRect"));
             if (flash) {
                 flash->set_visible(true);
-                flash->set_visible(false);
             }
             animation->play("1H_Melee_Attack_Stab",-1,difficulty,false);
             damage_done = false;
