@@ -2,6 +2,8 @@ extends Node3D
 @export var ArenaScene: PackedScene
 @export var PlayerScene: PackedScene
 var kills = 0;
+var total_moves = 0;
+var player_moves = [0,0,0,0,0,0,0];
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -63,6 +65,14 @@ func _process(_delta):
 		e2.connect("enemy_slice", enemy_slice);
 		e2.connect("enemy_stab", enemy_stab);
 		e2.connect("enemy_death", enemy_death);
+		e2.set_total_moves(total_moves);
+		e2.set_move_0(player_moves[0]);
+		e2.set_move_1(player_moves[1]);
+		e2.set_move_2(player_moves[2]);
+		e2.set_move_3(player_moves[3]);
+		e2.set_move_4(player_moves[4]);
+		e2.set_move_5(player_moves[5]);
+		e2.set_move_6(player_moves[6]);
 		var difficulty = 0.5 + (kills % 5)/10;
 		e2.set_difficulty(difficulty);
 		$Arena.add_child(arena,true)
@@ -122,6 +132,16 @@ func enemy_death() :
 	update_health(p.get_health());
 	kills += 1
 	get_node("GUI/GridContainer/ScoreBox/ScoreLabel").set_text(str(kills))
+	var e = get_tree().get_first_node_in_group("enemy1")
+	player_moves[0] = e.get_move_0();
+	player_moves[1] = e.get_move_1();
+	player_moves[2] = e.get_move_2();
+	player_moves[3] = e.get_move_3();
+	player_moves[4] = e.get_move_4();
+	player_moves[5] = e.get_move_5();
+	player_moves[6] = e.get_move_6();
+	total_moves = e.get_total_moves();
+	
 	
 	
 

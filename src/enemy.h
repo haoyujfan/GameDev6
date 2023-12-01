@@ -63,6 +63,24 @@ public:
     void set_health(double p_health);
     double get_health();
 
+    int get_move_0();
+    int get_move_1();
+    int get_move_2();
+    int get_move_3();
+    int get_move_4();
+    int get_move_5();
+    int get_move_6();
+
+    void set_move_0(int v);
+    void set_move_1(int v);
+    void set_move_2(int v);
+    void set_move_3(int v);
+    void set_move_4(int v);
+    void set_move_5(int v);
+    void set_move_6(int v);
+    int get_total_moves();
+    void set_total_moves(int moves);
+
     void set_got_blocked(bool p_got_blocked);
     void on_got_blocked();
 

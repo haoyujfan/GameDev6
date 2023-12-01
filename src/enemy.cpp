@@ -32,6 +32,24 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_got_blocked", "p_got_blocked"), &Enemy::set_got_blocked);
     ClassDB::bind_method(D_METHOD("set_difficulty", "p_difficulty"), &Enemy::set_difficulty);
     ClassDB::bind_method(D_METHOD("add_move_list", "m"), &Enemy::add_move_list);
+
+    ClassDB::bind_method(D_METHOD("get_total_moves"), &Enemy::get_total_moves);
+    ClassDB::bind_method(D_METHOD("set_total_moves", "moves"), &Enemy::set_total_moves);
+    ClassDB::bind_method(D_METHOD("get_move_0"), &Enemy::get_move_0);
+    ClassDB::bind_method(D_METHOD("get_move_1"), &Enemy::get_move_1);
+    ClassDB::bind_method(D_METHOD("get_move_2"), &Enemy::get_move_2);
+    ClassDB::bind_method(D_METHOD("get_move_3"), &Enemy::get_move_3);
+    ClassDB::bind_method(D_METHOD("get_move_4"), &Enemy::get_move_4);
+    ClassDB::bind_method(D_METHOD("get_move_5"), &Enemy::get_move_5);
+    ClassDB::bind_method(D_METHOD("get_move_6"), &Enemy::get_move_6);
+
+    ClassDB::bind_method(D_METHOD("set_move_0", "v"), &Enemy::set_move_0);
+    ClassDB::bind_method(D_METHOD("set_move_1", "v"), &Enemy::set_move_1);
+    ClassDB::bind_method(D_METHOD("set_move_2", "v"), &Enemy::set_move_2);
+    ClassDB::bind_method(D_METHOD("set_move_3", "v"), &Enemy::set_move_3);
+    ClassDB::bind_method(D_METHOD("set_move_4", "v"), &Enemy::set_move_4);
+    ClassDB::bind_method(D_METHOD("set_move_5", "v"), &Enemy::set_move_5);
+    ClassDB::bind_method(D_METHOD("set_move_6", "v"), &Enemy::set_move_6);
     ADD_SIGNAL(MethodInfo("enemy_chop"));
     ADD_SIGNAL(MethodInfo("enemy_slice"));
     ADD_SIGNAL(MethodInfo("enemy_stab"));
@@ -468,4 +486,69 @@ void Enemy::set_got_blocked(bool p_got_blocked) {
 
 void Enemy::set_difficulty(double p_difficulty) {
     difficulty = p_difficulty;
+}
+
+int Enemy::get_move_0() {
+    return player_move_list[0];
+}
+
+int Enemy::get_move_1() {
+    return player_move_list[1];
+}
+
+int Enemy::get_move_2() {
+    return player_move_list[2];
+}
+
+int Enemy::get_move_3() {
+    return player_move_list[3];
+}
+
+int Enemy::get_move_4() {
+    return player_move_list[4];
+}
+
+int Enemy::get_move_5() {
+    return player_move_list[5];
+}
+
+int Enemy::get_move_6() {
+    return player_move_list[6];
+}
+
+void Enemy::set_move_0(int v) {
+    player_move_list[0] = v;
+}
+
+void Enemy::set_move_1(int v) {
+    player_move_list[1] = v;
+}
+
+void Enemy::set_move_2(int v) {
+    player_move_list[2] = v;
+}
+
+void Enemy::set_move_3(int v) {
+    player_move_list[3] = v;
+}
+
+void Enemy::set_move_4(int v) {
+    player_move_list[4] = v;
+}
+
+void Enemy::set_move_5(int v) {
+    player_move_list[5] = v;
+}
+
+void Enemy::set_move_6(int v) {
+    player_move_list[6] = v;
+}
+
+
+int Enemy::get_total_moves() {
+    return total_moves;
+}
+
+void Enemy::set_total_moves(int moves) {
+    total_moves = moves;
 }
