@@ -130,13 +130,13 @@ void Enemy::_physics_process(double delta) {
         }
         got_blocked = false;
     }
-
+    timer += 1;
     switch(move) {
-        timer += 1;
         case Moves::IDLE:
             animation->play("Idle");
             // about 2 second delay
             if (timer % 100 == 0){
+                UtilityFunctions::print(timer);
                 if (is_fighting) {
                     pick_move();
                 }
@@ -144,7 +144,7 @@ void Enemy::_physics_process(double delta) {
             }
             break;
         case Moves::CHOP:
-            if (timer % 50 == 0) {
+            if (timer % 10 == 0) {
                 flash = Object::cast_to<ColorRect>(get_node_or_null("../../../ColorRect"));
                 if (flash) {
                     flash->set_visible(false);
@@ -160,7 +160,7 @@ void Enemy::_physics_process(double delta) {
             move = Moves::IDLE;
             break;
         case Moves::SLICE:
-            if (timer % 50 == 0) {
+            if (timer % 10 == 0) {
                 flash = Object::cast_to<ColorRect>(get_node_or_null("../../../ColorRect"));
                 if (flash) {
                     flash->set_visible(false);
@@ -176,7 +176,7 @@ void Enemy::_physics_process(double delta) {
             move = Moves::IDLE;
             break;
         case Moves::STAB:
-            if (timer % 50 == 0) {
+            if (timer % 10 == 0) {
                 flash = Object::cast_to<ColorRect>(get_node_or_null("../../../ColorRect"));
                 if (flash) {
                     flash->set_visible(false);
