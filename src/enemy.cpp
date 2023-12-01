@@ -70,6 +70,7 @@ Enemy::Enemy() {
     total_moves = 0;
     got_blocked = false;
     damage_done = true;
+    timer = 0;
 }
 
 
@@ -133,9 +134,14 @@ void Enemy::_physics_process(double delta) {
     switch(move) {
         case Moves::IDLE:
             animation->play("Idle");
-            if (is_fighting) {
-                pick_move();
+            // about 2 second delay
+            if (timer % 100 == 0){
+                if (is_fighting) {
+                    pick_move();
+                }
+                timer = 0;
             }
+            timer += 1;
             break;
         case Moves::CHOP:
             if(animation->get_current_animation() == "1H_Melee_Attack_Chop") {

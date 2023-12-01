@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://da08ne6tl5nbi"]
 
 [ext_resource type="PackedScene" uid="uid://d0csmufdxes1n" path="res://KayKit_Adventurers_1.0_FREE/Characters/gltf/Barbarian.glb" id="1_5qa0l"]
-[ext_resource type="PackedScene" uid="uid://dl0ul6uupkpt1" path="res://health_bar.tscn" id="2_x05el"]
+[ext_resource type="PackedScene" path="res://health_bar.tscn" id="2_x05el"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bei0b"]
 radius = 0.7

@@ -38,6 +38,7 @@ private:
     double difficulty = 0.5;
     RandomNumberGenerator rand;
     bool damage_done;
+    int timer;
 
     // Fuzzy variables
     // Aggressiveness of 0.0 means no attacks; 2.0 means only attacks
