@@ -1,7 +1,7 @@
 extends Node3D
 @export var ArenaScene: PackedScene
 @export var PlayerScene: PackedScene
-@export var RANDOM_SHAKE_STRENGTH = 5.0;
+@export var RANDOM_SHAKE_STRENGTH = 2.0;
 @export var SHAKE_DECAY_RATE = 5.0;
 var kills = 0;
 var total_moves = 0;
