@@ -84,7 +84,7 @@ func _process(_delta):
 		e2.set_move_4(player_moves[4]);
 		e2.set_move_5(player_moves[5]);
 		e2.set_move_6(player_moves[6]);
-		var difficulty = 0.5 + (kills % 5)/10;
+		var difficulty = 0.5 + (kills % 3)/10;
 		e2.set_difficulty(difficulty);
 		$Arena.add_child(arena,true)
 		a.queue_free();
@@ -100,10 +100,10 @@ func enemy_chop() :
 		return
 	# block
 	elif move == 6 :
-		p.set_health(p.get_health() - 1)
+		p.set_health(p.get_health() - 10)
 		update_health(p.get_health(),true)
 	else :
-		p.set_health(p.get_health() - 5)
+		p.set_health(p.get_health() - 20)
 		update_health(p.get_health(),true)
 	pass
 
@@ -115,10 +115,10 @@ func enemy_slice() :
 		return
 	# block
 	elif move == 6 :
-		p.set_health(p.get_health() - 1)
+		p.set_health(p.get_health() - 10)
 		update_health(p.get_health(),true)
 	else :
-		p.set_health(p.get_health() - 5)
+		p.set_health(p.get_health() - 20)
 		update_health(p.get_health(),true)
 	pass
 
@@ -131,7 +131,7 @@ func enemy_stab() :
 		e.set_got_blocked(true);
 		return
 	else :
-		p.set_health(p.get_health() - 10)
+		p.set_health(p.get_health() - 40)
 		update_health(p.get_health(), true)
 	pass
 	
@@ -139,9 +139,13 @@ func enemy_death() :
 	var p = get_tree().get_first_node_in_group("player")
 	p.set_running(true);
 	p.set_fighting(false);
+	if(p.get_health() == 100):
+		kills += 3
+		
+	else:
+		kills += 1
 	p.set_health(p.get_health() + 40);
 	update_health(p.get_health(), false);
-	kills += 1
 	get_node("GUI/GridContainer/ScoreBox/ScoreLabel").set_text(str(kills))
 	var e = get_tree().get_first_node_in_group("enemy1")
 	player_moves[0] = e.get_move_0();
@@ -186,7 +190,7 @@ func _on_player_chop():
 		return
 	# block
 	elif move == 6 :
-		e.set_health(e.get_health() - 1)
+		e.set_health(e.get_health() - 3)
 	else :
 		e.set_health(e.get_health() - 5)
 	pass # Replace with function body.
@@ -200,7 +204,7 @@ func _on_player_slice():
 		return
 	# block
 	elif move == 6 :
-		e.set_health(e.get_health() - 1)
+		e.set_health(e.get_health() - 3)
 	else :
 		e.set_health(e.get_health() - 5)
 	pass # Replace with function body.
