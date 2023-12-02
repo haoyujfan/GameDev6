@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://qgpt0l3x0ata"]
+[gd_scene load_steps=8 format=3 uid="uid://qgpt0l3x0ata"]
 
 [ext_resource type="FontFile" uid="uid://ddwlhv6utpbsb" path="res://font/Canterbury.ttf" id="1_g8e47"]
 [ext_resource type="Texture2D" uid="uid://dgibhddc8adyt" path="res://2D Health & Ammo Pickups v6.2/32px/health-red 32px.png" id="1_hcqut"]
 [ext_resource type="Texture2D" uid="uid://c310nhtuax664" path="res://2D Health & Ammo Pickups v6.2/32px/health-armor 32px.png" id="2_bads0"]
+[ext_resource type="Texture2D" uid="uid://c0q4m6lofe6cf" path="res://border.png" id="4_1vion"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xhwfa"]
 corner_radius_top_left = 5
@@ -32,6 +33,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Border" type="TextureRect" parent="."]
+visible = false
+layout_mode = 2
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("4_1vion")
 
 [node name="GridContainer" type="GridContainer" parent="."]
 layout_mode = 0

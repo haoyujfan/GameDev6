@@ -17,6 +17,7 @@ class Enemy : public CharacterBody3D {
 private:
     Input* input;
     int move;
+    int next_move;
     // Array* player_move_list;
     int player_move_list[7] = {0, 0, 0, 0, 0, 0, 0};
     int total_moves;
@@ -39,7 +40,7 @@ private:
     double difficulty = 0.5;
     RandomNumberGenerator rand;
     bool damage_done;
-    int timer;
+    double timer;
 
     ColorRect* flash;
 
@@ -91,8 +92,8 @@ public:
     void set_difficulty(double p_difficulty);
 
     void pick_move();
-    void predict();
-    void move_response(int m);
+    int predict();
+    int move_response(int m);
     void add_move_list(int m);
 };
 

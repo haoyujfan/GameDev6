@@ -1,9 +1,13 @@
 extends Node3D
 @export var ArenaScene: PackedScene
 @export var PlayerScene: PackedScene
+@export var RANDOM_SHAKE_STRENGTH = 5.0;
+@export var SHAKE_DECAY_RATE = 5.0;
 var kills = 0;
 var total_moves = 0;
 var player_moves = [0,0,0,0,0,0,0];
+var rand = RandomNumberGenerator.new();
+var shake_strength = 0.0;
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -26,6 +30,7 @@ func _ready():
 	enemy.connect("enemy_stab", enemy_stab);
 	enemy.connect("enemy_death", enemy_death);
 	$Arena.add_child(arena,true)
+	rand.randomize();
 
 	# var player = PlayerScene.instantiate()
 	# player.position = Vector3(0,5,0);
@@ -40,6 +45,12 @@ func _process(_delta):
 	var a2 = get_tree().get_first_node_in_group("arena2")
 	var e = get_tree().get_first_node_in_group("enemy1")
 	var e2 = get_tree().get_first_node_in_group("enemy2")
+	
+	shake_strength = lerp(shake_strength, 0.0, SHAKE_DECAY_RATE * _delta);
+	var camera = get_node("Body/Camera3D");
+	var offset = get_random_offset();
+	camera.h_offset = offset.x;
+	camera.v_offset = offset.y;
 	
 	if(e.get_health() > 0 && p.get_running() && abs(p.get_location().x - a.global_position.x) < 7) :
 		p.set_running(false);
@@ -90,10 +101,10 @@ func enemy_chop() :
 	# block
 	elif move == 6 :
 		p.set_health(p.get_health() - 1)
-		update_health(p.get_health())
+		update_health(p.get_health(),true)
 	else :
 		p.set_health(p.get_health() - 5)
-		update_health(p.get_health())
+		update_health(p.get_health(),true)
 	pass
 
 func enemy_slice() :
@@ -105,10 +116,10 @@ func enemy_slice() :
 	# block
 	elif move == 6 :
 		p.set_health(p.get_health() - 1)
-		update_health(p.get_health())
+		update_health(p.get_health(),true)
 	else :
 		p.set_health(p.get_health() - 5)
-		update_health(p.get_health())
+		update_health(p.get_health(),true)
 	pass
 
 func enemy_stab() :
@@ -121,7 +132,7 @@ func enemy_stab() :
 		return
 	else :
 		p.set_health(p.get_health() - 10)
-		update_health(p.get_health())
+		update_health(p.get_health(), true)
 	pass
 	
 func enemy_death() :
@@ -129,7 +140,7 @@ func enemy_death() :
 	p.set_running(true);
 	p.set_fighting(false);
 	p.set_health(p.get_health() + 40);
-	update_health(p.get_health());
+	update_health(p.get_health(), false);
 	kills += 1
 	get_node("GUI/GridContainer/ScoreBox/ScoreLabel").set_text(str(kills))
 	var e = get_tree().get_first_node_in_group("enemy1")
@@ -147,8 +158,19 @@ func enemy_death() :
 
 func _on_body_blocking(shield):
 	get_node("GUI/GridContainer/HBoxContainer/Shield").set_value(shield)
-	
-func update_health(health):
+
+func shake_camera():
+	shake_strength = RANDOM_SHAKE_STRENGTH;
+
+func get_random_offset():
+	return Vector2(
+		rand.randf_range(-shake_strength,shake_strength),
+		rand.randf_range(-shake_strength,shake_strength)
+	)
+
+func update_health(health, should_shake):
+	if(should_shake):
+		shake_camera();		
 	get_node("GUI/GridContainer/HBoxContainer/Health").set_value(health)
 	if(health <= 0):
 		var p = get_tree().get_first_node_in_group("player")

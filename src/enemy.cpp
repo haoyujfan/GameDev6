@@ -12,6 +12,7 @@
 #include <godot_cpp/classes/audio_stream_player.hpp>
 #include <godot_cpp/classes/progress_bar.hpp>
 #include <godot_cpp/classes/collision_shape3d.hpp>
+#include <godot_cpp/classes/texture_rect.hpp>
 
 
 using namespace godot;
@@ -71,6 +72,7 @@ Enemy::Enemy() {
     got_blocked = false;
     damage_done = true;
     timer = 0;
+    next_move = -1;
 }
 
 
@@ -130,26 +132,34 @@ void Enemy::_physics_process(double delta) {
         }
         got_blocked = false;
     }
-    timer += 1;
+
+    timer += delta;
+    UtilityFunctions::print(timer);
+
     switch(move) {
         case Moves::IDLE:
             animation->play("Idle");
             // about 2 second delay
-            if (timer % 100 == 0){
-                UtilityFunctions::print(timer);
-                if (is_fighting) {
-                    pick_move();
+            if (timer > 0.5 && timer <= 1){
+                UtilityFunctions::print("choosing move");
+                if (is_fighting && next_move == -1) {
+                    next_move = predict();
+                    // if we are defending, dont wait
+                    if(next_move >= 4) {
+                        timer = 2;
+                    } else {
+                        if(get_node_or_null("../../../GUI/Border"))
+                            get_node<TextureRect>("../../../GUI/Border")->set_visible(true);
+                    }
                 }
-                timer = 0;
+            } else if (timer > 1) {
+                if(get_node_or_null("../../../GUI/Border"))
+                    get_node<TextureRect>("../../../GUI/Border")->set_visible(false);
+                move = next_move;
+                pick_move();
             }
             break;
         case Moves::CHOP:
-            if (timer % 10 == 0) {
-                flash = Object::cast_to<ColorRect>(get_node_or_null("../../../ColorRect"));
-                if (flash) {
-                    flash->set_visible(false);
-                }
-            }
             if(animation->get_current_animation() == "1H_Melee_Attack_Chop") {
                 if (!damage_done && animation->get_current_animation_position() > animation->get_current_animation_length() / 2) {
                     emit_signal("enemy_chop");
@@ -157,15 +167,11 @@ void Enemy::_physics_process(double delta) {
                 }
                 return;  
             }
+            timer = 0;
             move = Moves::IDLE;
+            next_move = -1;
             break;
         case Moves::SLICE:
-            if (timer % 10 == 0) {
-                flash = Object::cast_to<ColorRect>(get_node_or_null("../../../ColorRect"));
-                if (flash) {
-                    flash->set_visible(false);
-                }
-            }
             if(animation->get_current_animation() == "1H_Melee_Attack_Slice_Horizontal") {
                 if (!damage_done && animation->get_current_animation_position() > animation->get_current_animation_length() / 2) {
                     emit_signal("enemy_slice");
@@ -173,15 +179,11 @@ void Enemy::_physics_process(double delta) {
                 }
                 return;  
             }
+            timer = 0;
             move = Moves::IDLE;
+            next_move = -1;
             break;
         case Moves::STAB:
-            if (timer % 10 == 0) {
-                flash = Object::cast_to<ColorRect>(get_node_or_null("../../../ColorRect"));
-                if (flash) {
-                    flash->set_visible(false);
-                }
-            }
             if(animation->get_current_animation() == "1H_Melee_Attack_Stab") {
                 if (!damage_done && animation->get_current_animation_position() > animation->get_current_animation_length() / 3) {
                     emit_signal("enemy_stab");
@@ -189,28 +191,38 @@ void Enemy::_physics_process(double delta) {
                 }
                 return;  
             }
+            timer = 0;
             move = Moves::IDLE;
+            next_move = -1;
             break;
         case Moves::DODGE:
             if(animation->get_current_animation() == "Dodge_Left") {
                 return;
             }
+            timer = 0;
             move = Moves::IDLE;
+            next_move = -1;
             break;
         case Moves::JUMP:
             if(animation->get_current_animation() == "Jump_Full_Short") {
                 return;
             }
+            timer = 0;
             move = Moves::IDLE;
+            next_move = -1;
             break;
         case Moves::BLOCK:
             if(animation->get_current_animation() == "Blocking") {
                 return;
             }
+            timer = 0;
             move = Moves::IDLE;
+            next_move = -1;
             break;
         default:
+            timer = 0;
             move = Moves::IDLE;
+            next_move = -1;
             break;
     }
 }
@@ -229,6 +241,8 @@ Vector3 Enemy::get_location() {
 
 void Enemy::set_fighting(bool p_fighting) {
     is_fighting = p_fighting;
+    if(is_fighting)
+        timer = 0;
 }
 
 bool Enemy::get_fighting() {
@@ -255,30 +269,17 @@ double Enemy::get_health() {
 
 void Enemy::pick_move() {
     // move = rand.randi_range(1, 6); // inclusive
-    predict();
     AnimationPlayer* animation = get_node<AnimationPlayer>(NodePath("Skin/AnimationPlayer"));
     switch(move) {
         case Moves::CHOP:
-            flash = Object::cast_to<ColorRect>(get_node_or_null("../../../ColorRect"));
-            if (flash) {
-                flash->set_visible(true);
-            }
             animation->play("1H_Melee_Attack_Chop",-1,difficulty,false);
             damage_done = false;
             break;
         case Moves::SLICE:
-            flash = Object::cast_to<ColorRect>(get_node_or_null("../../../ColorRect"));
-            if (flash) {
-                flash->set_visible(true);
-            }
             animation->play("1H_Melee_Attack_Slice_Horizontal",-1,difficulty,false);
             damage_done = false;
             break;
         case Moves::STAB:
-            flash = Object::cast_to<ColorRect>(get_node_or_null("../../../ColorRect"));
-            if (flash) {
-                flash->set_visible(true);
-            }
             animation->play("1H_Melee_Attack_Stab",-1,difficulty,false);
             damage_done = false;
             break;
@@ -306,7 +307,7 @@ Aggressiveness just factors into the final move decision, but probably isn't
 considered fuzzy logic. If we implement movement, it could definitely be made
 to do so. 
 */
-void Enemy::predict() {
+int Enemy::predict() {
     UtilityFunctions::print("Probabilities:");
     UtilityFunctions::print((double)(block_probability + jump_probability + dodge_probability + stab_probability + slice_probability + chop_probability)); 
 
@@ -315,20 +316,20 @@ void Enemy::predict() {
     // The range where the float lands determines the predicted next move
     double prediction = rand.randf_range(0, 1);
     if (prediction <= chop_probability) {
-        move_response(Moves::CHOP);
+        return move_response(Moves::CHOP);
     } else if (prediction <= slice_probability + chop_probability) {
-        move_response(Moves::SLICE);
+        return move_response(Moves::SLICE);
     } else if (prediction <= stab_probability + slice_probability + chop_probability) {
-        move_response(Moves::STAB);
+        return move_response(Moves::STAB);
     } else if (prediction <= dodge_probability + stab_probability + slice_probability + chop_probability) {
-        move_response(Moves::DODGE);
+        return move_response(Moves::DODGE);
     } else if (prediction <= jump_probability + dodge_probability + stab_probability + slice_probability + chop_probability) {
-        move_response(Moves::JUMP);
+        return move_response(Moves::JUMP);
     } else if (prediction <= block_probability + jump_probability + dodge_probability + stab_probability + slice_probability + chop_probability) {
-        move_response(Moves::BLOCK);
+        return move_response(Moves::BLOCK);
     } else {
         // May want to change default behavior
-        move_response(-1);
+        return move_response(-1);
     }
 }
 
@@ -338,7 +339,7 @@ Set up an array to handle response to the predicted move.
 Modify values in array using aggressiveness variable.
 Choose random action using weighted probabilities inside of decision array.
 */
-void Enemy::move_response(int m) {
+int Enemy::move_response(int m) {
     double decision[7] = {0, 0, 0, 0, 0, 0, 0};
     // m being the predicted next move of player
     // Populate probabilities of enemy's next move
@@ -479,19 +480,19 @@ void Enemy::move_response(int m) {
     // The range where the float lands determines the move
     double choice = rand.randf_range(0, 1);
     if (choice <= decision[1]) {
-        move = Moves::CHOP;
+        return Moves::CHOP;
     } else if (choice <= decision[1] + decision[2]) {
-        move = Moves::SLICE;
+        return Moves::SLICE;
     } else if (choice <= decision[1] + decision[2] + decision[3]) {
-        move = Moves::STAB;
+        return Moves::STAB;
     } else if (choice <= decision[1] + decision[2] + decision[3] + decision[4]) {
-        move = Moves::DODGE;
+        return Moves::DODGE;
     } else if (choice <= decision[1] + decision[2] + decision[3] + decision[4] + decision[5]) {
-        move = Moves::JUMP;
+        return Moves::JUMP;
     } else if (choice <= decision[1] + decision[2] + decision[3] + decision[4] + decision[5] + decision[6]) {
-        move = Moves::BLOCK;
+        return Moves::BLOCK;
     } else {
-        move = Moves::IDLE;
+        return Moves::IDLE;
     }
 }
 
