@@ -36,6 +36,7 @@ private:
     bool dead;
     bool dying;
     bool got_blocked;
+    bool successful_block;
     double health;
     double difficulty = 0.5;
     RandomNumberGenerator rand;
@@ -67,6 +68,7 @@ public:
     int get_move();
     void set_health(double p_health);
     double get_health();
+    void set_successful_block();
 
     int get_move_0();
     int get_move_1();

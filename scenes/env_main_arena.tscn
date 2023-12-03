@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://c11uo13dew2b8" path="res://env_hallway.tscn" id="4_xl7gr"]
 [ext_resource type="PackedScene" uid="uid://c8v0di6i72sfy" path="res://rogue.tscn" id="5_327gm"]
 [ext_resource type="PackedScene" uid="uid://cdne1w8mfdbd6" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/keg_decorated.gltf.glb" id="5_bufsp"]
-[ext_resource type="PackedScene" path="res://audience.tscn" id="6_4s0im"]
+[ext_resource type="PackedScene" uid="uid://c0mhekg5kf5n" path="res://audience.tscn" id="6_4s0im"]
 [ext_resource type="PackedScene" uid="uid://dba24m11onpnx" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/table_long.gltf.glb" id="6_any8o"]
 [ext_resource type="PackedScene" uid="uid://dty3rg5uwymn2" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/box_stacked.gltf.glb" id="6_ljojy"]
 [ext_resource type="PackedScene" uid="uid://c1bj6sphir7j5" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/coin_stack_large.gltf.glb" id="6_qelmj"]

@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bat1l057w8edx" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/wall_endcap.gltf.glb" id="2_3uq51"]
 [ext_resource type="PackedScene" uid="uid://cuv6foo45ufnw" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/wall_archedwindow_open.gltf.glb" id="3_mbf4k"]
 [ext_resource type="PackedScene" uid="uid://d3wq33he60rn7" path="res://KayKit_DungeonRemastered_1.0_FREE/Assets/gltf/wall.gltf.glb" id="4_swfsr"]
-[ext_resource type="PackedScene" path="res://torch.tscn" id="5_luj6l"]
+[ext_resource type="PackedScene" uid="uid://bxe3s2suvieda" path="res://torch.tscn" id="5_luj6l"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_s6wq0"]
 size = Vector3(5, 40, 100)

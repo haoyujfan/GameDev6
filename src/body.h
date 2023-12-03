@@ -25,6 +25,8 @@ private:
     bool dead;
     Vector3 velocity;
     bool damage_done;
+    int parry_num;
+    int parry_break_num;
     
 
 
@@ -51,6 +53,7 @@ public:
     void _ready() override;
     void _process(double delta) override;
     void _physics_process(double delta) override;
+    void add_parry();
 };
 
 }

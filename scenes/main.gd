@@ -98,6 +98,10 @@ func enemy_chop() :
 	# dodge
 	if move == 4 :
 		return
+	# chop (parry)
+	if move == 1 :
+		p.add_parry()
+		return
 	# block
 	elif move == 6 :
 		p.set_health(p.get_health() - 10)
@@ -112,6 +116,10 @@ func enemy_slice() :
 	var move = p.get_move()
 	# jump
 	if move == 5 :
+		return
+	# slice (parry)
+	if move == 2 :
+		p.add_parry()
 		return
 	# block
 	elif move == 6 :
@@ -188,6 +196,9 @@ func _on_player_chop():
 	# dodge
 	if move == 4 :
 		return
+	# chop (parry)
+	if move == 1 :
+		return
 	# block
 	elif move == 6 :
 		e.set_health(e.get_health() - 3)
@@ -201,6 +212,9 @@ func _on_player_slice():
 	var move = e.get_move()
 	# jump
 	if move == 5 :
+		return
+	# slice (parry)
+	if move == 2 :
 		return
 	# block
 	elif move == 6 :
@@ -217,6 +231,7 @@ func _on_player_stab():
 	# block
 	if move == 6 :
 		get_node("Body").set_got_blocked(true);
+		e.set_successful_block();
 		return
 	else :
 		e.set_health(e.get_health() - 10)
@@ -243,4 +258,10 @@ func _on_player_block():
 
 func _on_body_player_death():
 	get_tree().change_scene_to_file("res://game_over.tscn")
+	pass # Replace with function body.
+
+
+func _on_body_parry_break():
+	var e = get_tree().get_first_node_in_group("enemy1")
+	e.set_got_blocked(true);
 	pass # Replace with function body.
