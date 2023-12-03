@@ -31,6 +31,7 @@ void Enemy::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_health"), &Enemy::get_health);
     ClassDB::bind_method(D_METHOD("set_health", "p_health"), &Enemy::set_health);
     ClassDB::bind_method(D_METHOD("set_got_blocked", "p_got_blocked"), &Enemy::set_got_blocked);
+    ClassDB::bind_method(D_METHOD("set_successful_block"), &Enemy::set_successful_block);
     ClassDB::bind_method(D_METHOD("set_difficulty", "p_difficulty"), &Enemy::set_difficulty);
     ClassDB::bind_method(D_METHOD("add_move_list", "m"), &Enemy::add_move_list);
 
@@ -70,6 +71,7 @@ Enemy::Enemy() {
     move = Moves::IDLE;
     total_moves = 0;
     got_blocked = false;
+    successful_block = false;
     damage_done = true;
     timer = 0;
     next_move = -1;
@@ -143,7 +145,12 @@ void Enemy::_physics_process(double delta) {
             if (timer > 0.5 && timer <= 1){
                 UtilityFunctions::print("choosing move");
                 if (is_fighting && next_move == -1) {
-                    next_move = predict();
+                    if (successful_block) {
+                        next_move = Moves::STAB;
+                        successful_block = false;
+                    } else {
+                        next_move = predict();
+                    }
                     // if we are defending, dont wait
                     if(next_move >= 4) {
                         timer = 2;
@@ -347,22 +354,22 @@ int Enemy::move_response(int m) {
     int num_nonzero_d;
     switch(m) {
         case Moves::CHOP:
-            decision[Moves::CHOP] = 0.05;
-            decision[Moves::SLICE] = 0.05;
-            decision[Moves::STAB] = 0.35;
-            decision[Moves::DODGE] = 0.5;
+            decision[Moves::CHOP] = 0.4;
+            decision[Moves::SLICE] = 0;
+            decision[Moves::STAB] = 0.4;
+            decision[Moves::DODGE] = 0.2;
             decision[Moves::JUMP] = 0;
-            decision[Moves::BLOCK] = 0.05;
+            decision[Moves::BLOCK] = 0;
             num_nonzero_a = 3;
             num_nonzero_d = 2;
             break;
         case Moves::SLICE:
-            decision[Moves::CHOP] = 0.05;
-            decision[Moves::SLICE] = 0.05;
-            decision[Moves::STAB] = 0.35;
+            decision[Moves::CHOP] = 0;
+            decision[Moves::SLICE] = 0.4;
+            decision[Moves::STAB] = 0.4;
             decision[Moves::DODGE] = 0;
-            decision[Moves::JUMP] = 0.5;
-            decision[Moves::BLOCK] = 0.05;
+            decision[Moves::JUMP] = 0.2;
+            decision[Moves::BLOCK] = 0;
             num_nonzero_a = 3;
             num_nonzero_d = 2;         
             break;
@@ -588,4 +595,8 @@ int Enemy::get_total_moves() {
 
 void Enemy::set_total_moves(int moves) {
     total_moves = moves;
+}
+
+void Enemy::set_successful_block() {
+    successful_block = true;
 }
