@@ -31,6 +31,7 @@ void Body::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_move"), &Body::get_move);
     ClassDB::bind_method(D_METHOD("set_got_blocked", "p_got_blocked"), &Body::set_got_blocked);
     ClassDB::bind_method(D_METHOD("set_dead"), &Body::set_dead);
+    ClassDB::bind_method(D_METHOD("add_parry"), &Body::add_parry);
     ADD_SIGNAL(MethodInfo("player_chop"));
     ADD_SIGNAL(MethodInfo("player_slice"));
     ADD_SIGNAL(MethodInfo("player_stab"));
@@ -38,6 +39,7 @@ void Body::_bind_methods() {
     ADD_SIGNAL(MethodInfo("player_jump"));
     ADD_SIGNAL(MethodInfo("player_block"));
     ADD_SIGNAL(MethodInfo("player_death"));
+    ADD_SIGNAL(MethodInfo("parry_break"));
     ADD_SIGNAL(MethodInfo("blocking",PropertyInfo(Variant::FLOAT,"shield")));
 }
 
@@ -53,6 +55,8 @@ Body::Body() {
     dying = false;
     dead = false;
     damage_done = true;
+    parry_num = 0;
+    parry_break_num = 2;
 }
 
 void Body::_ready() {
@@ -121,6 +125,10 @@ void Body::_process(double delta) {
                 return;
         }
         got_blocked = false;
+    }
+    if(parry_num == parry_break_num) {
+        parry_num = 0;
+        emit_signal("parry_break");
     }
 
     if(move != Moves::BLOCK) {
@@ -285,4 +293,8 @@ void Body::set_got_blocked(bool p_got_blocked) {
 
 void Body::set_dead() {
     dying = true;
+}
+
+void Body::add_parry() {
+    parry_num += 1;
 }

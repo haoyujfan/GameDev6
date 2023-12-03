@@ -354,21 +354,21 @@ int Enemy::move_response(int m) {
     int num_nonzero_d;
     switch(m) {
         case Moves::CHOP:
-            decision[Moves::CHOP] = 0.4;
-            decision[Moves::SLICE] = 0;
-            decision[Moves::STAB] = 0.4;
-            decision[Moves::DODGE] = 0.2;
+            decision[Moves::CHOP] = 0;
+            decision[Moves::SLICE] = 0.1;
+            decision[Moves::STAB] = 0.6;
+            decision[Moves::DODGE] = 0.3;
             decision[Moves::JUMP] = 0;
             decision[Moves::BLOCK] = 0;
             num_nonzero_a = 3;
             num_nonzero_d = 2;
             break;
         case Moves::SLICE:
-            decision[Moves::CHOP] = 0;
-            decision[Moves::SLICE] = 0.4;
-            decision[Moves::STAB] = 0.4;
+            decision[Moves::CHOP] = 0.1;
+            decision[Moves::SLICE] = 0;
+            decision[Moves::STAB] = 0.6;
             decision[Moves::DODGE] = 0;
-            decision[Moves::JUMP] = 0.2;
+            decision[Moves::JUMP] = 0.3;
             decision[Moves::BLOCK] = 0;
             num_nonzero_a = 3;
             num_nonzero_d = 2;         
