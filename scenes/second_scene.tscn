@@ -79,6 +79,7 @@ transform = Transform3D(-2.18557e-07, -1.74393e-15, -5, 1.74393e-15, 5, -1.74393
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.993467, 0.114122, 0, -0.114122, 0.993467, 0, 10.688, 17.8149)
+current = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
